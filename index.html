@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICH Digital Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --bg: #090b10;
+  --surface: #111318;
+  --surface2: #1a1d25;
+  --surface3: #22252e;
+  --border: #2a2d38;
+  --border-light: #353845;
+  --primary: #4f8ff7;
+  --primary-dim: #3a6fd4;
+  --primary-glow: rgba(79,143,247,.12);
+  --accent: #22c55e;
+  --accent-dim: rgba(34,197,94,.1);
+  --warning: #f59e0b;
+  --warning-dim: rgba(245,158,11,.1);
+  --danger: #ef4444;
+  --danger-dim: rgba(239,68,68,.1);
+  --purple: #a78bfa;
+  --purple-dim: rgba(167,139,250,.1);
+  --text: #e4e7ec;
+  --text-secondary: #9ca3b4;
+  --text-muted: #6b7280;
+  --white: #ffffff;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --shadow: 0 1px 3px rgba(0,0,0,.3), 0 4px 12px rgba(0,0,0,.2);
+  --shadow-lg: 0 4px 24px rgba(0,0,0,.4);
+  --transition: all .2s cubic-bezier(.4,0,.2,1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+
+/* ─── Lucide Icons ─── */
+[data-lucide] { width:16px; height:16px; stroke-width:1.8; vertical-align:middle; }
+.icon-sm [data-lucide], [data-lucide].sm { width:14px; height:14px; }
+.icon-lg [data-lucide], [data-lucide].lg { width:20px; height:20px; }
+.icon-xl [data-lucide], [data-lucide].xl { width:24px; height:24px; }
+.ficon [data-lucide] { width:20px; height:20px; }
+.stat [data-lucide] { width:18px; height:18px; opacity:.5; margin-bottom:6px; }
+.sb-item [data-lucide] { width:15px; height:15px; opacity:.7; }
+.sec-row [data-lucide] { width:16px; height:16px; }
+.tl-icon { display:flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; flex-shrink:0; }
+.tl-icon [data-lucide] { width:14px; height:14px; }
+.tl-icon.blue { background:var(--primary-glow); color:var(--primary); }
+.tl-icon.green { background:var(--accent-dim); color:var(--accent); }
+.tl-icon.yellow { background:var(--warning-dim); color:var(--warning); }
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:5px; }
+::-webkit-scrollbar-thumb:hover { background:var(--border-light); }
+
+/* ─── Top Bar ─── */
+.top-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 24px; height:56px;
+  background:rgba(17,19,24,.85); backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--border);
+  position:sticky; top:0; z-index:100;
+}
+.logo { display:flex; align-items:center; gap:10px; }
+.logo-mark {
+  width:32px; height:32px; border-radius:8px;
+  background:linear-gradient(135deg, var(--primary), #7c3aed);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 2px 8px rgba(79,143,247,.3);
+}
+.logo-text { font-weight:700; font-size:14px; letter-spacing:-.3px; }
+.logo-text .highlight { color:var(--primary); }
+.nav-pills { display:flex; gap:2px; padding:4px; background:var(--surface2); border-radius:10px; }
+.nav-pill {
+  padding:7px 14px; border-radius:8px; font-size:12.5px; font-weight:500;
+  color:var(--text-muted); cursor:pointer; border:none; background:none;
+  transition:var(--transition); white-space:nowrap;
+}
+.nav-pill:hover { color:var(--text-secondary); background:var(--surface3); }
+.nav-pill.active { color:var(--white); background:var(--primary); box-shadow:0 2px 8px rgba(79,143,247,.25); }
+.top-right { display:flex; align-items:center; gap:14px; }
+.notif-btn {
+  position:relative; width:36px; height:36px; border-radius:10px;
+  background:var(--surface2); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:var(--transition);
+}
+.notif-btn:hover { border-color:var(--primary); background:var(--primary-glow); }
+.notif-dot { position:absolute; top:6px; right:6px; width:7px; height:7px; border-radius:50%; background:var(--danger); }
+.avatar {
+  width:34px; height:34px; border-radius:10px;
+  background:linear-gradient(135deg, #4f8ff7, #7c3aed);
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; font-weight:700; color:var(--white); cursor:pointer;
+  border:2px solid transparent; transition:var(--transition);
+}
+.avatar:hover { border-color:var(--primary); }
+
+/* ─── Screen transitions ─── */
+.screen { display:none; padding:28px 32px; max-width:1280px; margin:0 auto; opacity:0; transform:translateY(8px); }
+.screen.active { display:block; animation:fadeIn .35s ease forwards; }
+@keyframes fadeIn { to { opacity:1; transform:translateY(0); } }
+
+/* ─── Cards ─── */
+.card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius-lg); padding:24px;
+  transition:var(--transition);
+}
+.card:hover { border-color:var(--border-light); }
+.card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.card-title { font-size:15px; font-weight:600; color:var(--white); letter-spacing:-.2px; }
+.card-desc { font-size:13px; color:var(--text-secondary); margin-top:3px; }
+
+/* ─── Buttons ─── */
+.btn {
+  padding:8px 16px; border-radius:8px; font-size:13px; font-weight:500;
+  cursor:pointer; border:none; transition:var(--transition);
+  display:inline-flex; align-items:center; gap:6px; font-family:inherit;
+}
+.btn:active { transform:scale(.97); }
+.btn-primary { background:var(--primary); color:var(--white); box-shadow:0 2px 8px rgba(79,143,247,.2); }
+.btn-primary:hover { background:var(--primary-dim); box-shadow:0 4px 16px rgba(79,143,247,.3); }
+.btn-success { background:var(--accent); color:var(--white); }
+.btn-warning { background:var(--warning); color:#000; }
+.btn-danger { background:var(--danger); color:var(--white); }
+.btn-ghost {
+  background:var(--surface2); border:1px solid var(--border); color:var(--text-secondary);
+}
+.btn-ghost:hover { border-color:var(--primary); color:var(--primary); background:var(--primary-glow); }
+.btn-sm { padding:6px 11px; font-size:12px; border-radius:7px; }
+.btn-lg { padding:11px 22px; font-size:14px; font-weight:600; border-radius:10px; }
+.btn-icon { width:36px; height:36px; padding:0; justify-content:center; }
+
+/* ─── Grids ─── */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+.g4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:16px; }
+.gap-24 { gap:24px; }
+
+/* ─── Stat Cards ─── */
+.stat {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius-lg); padding:20px; transition:var(--transition);
+  position:relative; overflow:hidden;
+}
+.stat:hover { border-color:var(--border-light); transform:translateY(-2px); box-shadow:var(--shadow); }
+.stat::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+}
+.stat.blue::after { background:var(--primary); }
+.stat.green::after { background:var(--accent); }
+.stat.yellow::after { background:var(--warning); }
+.stat.purple::after { background:var(--purple); }
+.stat-val { font-size:32px; font-weight:800; letter-spacing:-1px; line-height:1; }
+.stat-val.blue { color:var(--primary); }
+.stat-val.green { color:var(--accent); }
+.stat-val.yellow { color:var(--warning); }
+.stat-val.purple { color:var(--purple); }
+.stat-label { font-size:12px; color:var(--text-muted); margin-top:6px; font-weight:500; }
+
+/* ─── Tags ─── */
+.tag {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:3px 9px; border-radius:6px; font-size:11px; font-weight:600;
+  letter-spacing:.2px;
+}
+.tag-blue { background:rgba(79,143,247,.12); color:#7bb3ff; }
+.tag-green { background:var(--accent-dim); color:#4ade80; }
+.tag-yellow { background:var(--warning-dim); color:#fbbf24; }
+.tag-red { background:var(--danger-dim); color:#f87171; }
+.tag-purple { background:var(--purple-dim); color:#c4b5fd; }
+.tag-neutral { background:var(--surface3); color:var(--text-secondary); }
+
+/* ─── Tables ─── */
+.tbl { width:100%; border-collapse:separate; border-spacing:0; font-size:13px; }
+.tbl th {
+  text-align:left; padding:10px 14px; font-size:11px; font-weight:600;
+  text-transform:uppercase; letter-spacing:.6px; color:var(--text-muted);
+  border-bottom:1px solid var(--border); background:var(--surface2);
+}
+.tbl th:first-child { border-radius:8px 0 0 0; }
+.tbl th:last-child { border-radius:0 8px 0 0; }
+.tbl td { padding:11px 14px; border-bottom:1px solid var(--border); transition:var(--transition); }
+.tbl tr:hover td { background:var(--surface2); }
+.tbl tr:last-child td { border-bottom:none; }
+
+/* ─── Form ─── */
+.fg { margin-bottom:18px; }
+.fl { display:block; font-size:12.5px; font-weight:600; color:var(--text-secondary); margin-bottom:6px; letter-spacing:.2px; }
+.fi {
+  width:100%; padding:10px 14px; border-radius:8px;
+  border:1px solid var(--border); background:var(--surface2);
+  color:var(--text); font-size:13.5px; font-family:inherit;
+  outline:none; transition:var(--transition);
+}
+.fi:focus { border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-glow); }
+.fi::placeholder { color:var(--text-muted); }
+select.fi { cursor:pointer; }
+textarea.fi { resize:vertical; }
+.fhint { font-size:11px; color:var(--text-muted); margin-top:5px; line-height:1.4; }
+
+/* ─── File Items ─── */
+.fitem {
+  display:flex; align-items:center; gap:14px;
+  padding:14px 16px; border-radius:var(--radius);
+  border:1px solid var(--border); margin-bottom:8px;
+  cursor:pointer; transition:var(--transition);
+}
+.fitem:hover { border-color:var(--primary); background:var(--surface2); transform:translateX(2px); }
+.ficon {
+  width:42px; height:42px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; flex-shrink:0;
+}
+.ficon.pdf { background:var(--danger-dim); }
+.ficon.xml { background:rgba(79,143,247,.1); }
+.ficon.doc { background:var(--accent-dim); }
+.ficon.ectd { background:var(--purple-dim); }
+.ficon.folder { background:rgba(79,143,247,.1); }
+.finfo { flex:1; min-width:0; }
+.fname { font-size:13.5px; font-weight:500; color:var(--white); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.fmeta { font-size:11.5px; color:var(--text-muted); margin-top:2px; }
+.factions { display:flex; gap:5px; flex-shrink:0; }
+
+/* ─── Timeline ─── */
+.tl { position:relative; padding-left:20px; }
+.tl::before { content:''; position:absolute; left:3px; top:8px; bottom:8px; width:1px; background:var(--border); }
+.tl-item { position:relative; padding:10px 0 10px 0; }
+.tl-dot {
+  position:absolute; left:-20px; top:15px;
+  width:8px; height:8px; border-radius:50%;
+  border:2px solid var(--bg);
+}
+.tl-dot.blue { background:var(--primary); box-shadow:0 0 0 3px var(--primary-glow); }
+.tl-dot.green { background:var(--accent); box-shadow:0 0 0 3px var(--accent-dim); }
+.tl-dot.yellow { background:var(--warning); box-shadow:0 0 0 3px var(--warning-dim); }
+.tl-text { font-size:13px; color:var(--text); line-height:1.4; }
+.tl-text strong { color:var(--white); }
+.tl-time { font-size:11px; color:var(--text-muted); margin-top:3px; }
+
+/* ─── Encryption Visual ─── */
+.enc-box {
+  background:linear-gradient(135deg, rgba(79,143,247,.06) 0%, rgba(124,58,237,.04) 100%);
+  border:1px solid rgba(79,143,247,.15);
+  border-radius:var(--radius-lg); padding:24px; position:relative; overflow:hidden;
+}
+.enc-box::before {
+  content:''; position:absolute; top:-50%; right:-20%; width:300px; height:300px;
+  background:radial-gradient(circle, rgba(79,143,247,.08) 0%, transparent 70%);
+  pointer-events:none;
+}
+.key-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 12px; border-radius:20px; font-size:12px; font-weight:500;
+}
+.key-t1 { background:rgba(79,143,247,.1); color:#7bb3ff; border:1px solid rgba(79,143,247,.2); }
+.key-t2 { background:var(--warning-dim); color:#fbbf24; border:1px solid rgba(245,158,11,.2); }
+
+/* ─── Sidebar Layout ─── */
+.layout-sb { display:grid; grid-template-columns:256px 1fr; gap:24px; }
+.sb {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius-lg); padding:12px;
+  height:fit-content; position:sticky; top:72px;
+}
+.sb-section {
+  font-size:10px; text-transform:uppercase; letter-spacing:.8px;
+  color:var(--text-muted); padding:14px 12px 6px; font-weight:700;
+}
+.sb-item {
+  display:flex; align-items:center; gap:10px;
+  padding:9px 12px; border-radius:8px; font-size:13px;
+  color:var(--text-muted); cursor:pointer; transition:var(--transition);
+}
+.sb-item:hover { background:var(--surface2); color:var(--text-secondary); }
+.sb-item.active { background:var(--primary-glow); color:var(--primary); font-weight:500; }
+
+/* ─── Steps ─── */
+.step {
+  display:flex; align-items:flex-start; gap:14px;
+  padding:14px 16px; border:1px solid var(--border);
+  border-radius:var(--radius); margin-bottom:8px;
+  transition:var(--transition);
+}
+.step:hover { border-color:var(--border-light); }
+.step-num {
+  width:30px; height:30px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; font-weight:700; flex-shrink:0;
+}
+.step-num.done { background:var(--accent); color:var(--white); }
+.step-num.now { background:var(--primary); color:var(--white); animation:pulse 2s infinite; }
+.step-num.wait { background:var(--surface3); color:var(--text-muted); }
+@keyframes pulse { 0%,100% { box-shadow:0 0 0 0 rgba(79,143,247,.4); } 50% { box-shadow:0 0 0 8px rgba(79,143,247,0); } }
+
+/* ─── Drop Zone ─── */
+.dropzone {
+  border:2px dashed var(--border); border-radius:var(--radius-lg);
+  padding:48px; text-align:center; cursor:pointer; transition:var(--transition);
+  position:relative;
+}
+.dropzone:hover { border-color:var(--primary); background:var(--primary-glow); }
+.dropzone.filled { border-style:solid; border-color:var(--accent); background:var(--accent-dim); }
+
+/* ─── Checkbox styled ─── */
+.ck-row {
+  display:flex; align-items:center; gap:12px;
+  padding:11px 14px; border:1px solid var(--border); border-radius:8px;
+  margin-bottom:6px; cursor:pointer; transition:var(--transition);
+}
+.ck-row:hover { border-color:var(--primary); background:var(--primary-glow); }
+.ck-row input[type=checkbox] { accent-color:var(--primary); width:16px; height:16px; cursor:pointer; }
+.ck-label { font-size:13px; flex:1; }
+.ck-status { margin-left:auto; }
+
+/* ─── Security Bar ─── */
+.sec-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:12px 16px; background:var(--surface2); border-radius:8px;
+  margin-bottom:6px; transition:var(--transition);
+}
+.sec-row:hover { background:var(--surface3); }
+
+/* ─── Page Header ─── */
+.ph { margin-bottom:28px; }
+.ph-title { font-size:24px; font-weight:800; color:var(--white); letter-spacing:-.5px; }
+.ph-desc { font-size:14px; color:var(--text-secondary); margin-top:5px; }
+.ph-bc { font-size:12px; color:var(--text-muted); margin-bottom:8px; }
+.ph-bc a { color:var(--primary); text-decoration:none; }
+.ph-bc a:hover { text-decoration:underline; }
+
+/* ─── Shield Lock ─── */
+.shield {
+  width:72px; height:72px; border-radius:50%;
+  background:linear-gradient(135deg, rgba(79,143,247,.15), rgba(124,58,237,.1));
+  border:2px solid rgba(79,143,247,.3);
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 20px; animation:pulse 2.5s infinite;
+}
+
+/* ─── Login ─── */
+.login-wrap { max-width:440px; margin:60px auto; }
+.login-box {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius-xl); padding:44px 36px;
+  box-shadow:var(--shadow-lg);
+}
+.passkey-btn {
+  width:100%; padding:14px; border-radius:10px;
+  background:linear-gradient(135deg, var(--primary), #6366f1);
+  color:var(--white); font-size:15px; font-weight:700;
+  border:none; cursor:pointer; display:flex; align-items:center;
+  justify-content:center; gap:10px; transition:var(--transition);
+  box-shadow:0 4px 16px rgba(79,143,247,.25);
+  font-family:inherit;
+}
+.passkey-btn:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(79,143,247,.35); }
+
+/* ─── Workspace Cards ─── */
+.ws-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius-lg); padding:24px;
+  cursor:pointer; transition:var(--transition);
+  position:relative; overflow:hidden;
+}
+.ws-card:hover { border-color:var(--primary); transform:translateY(-3px); box-shadow:var(--shadow-lg); }
+.ws-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+}
+.ws-card.active-ws::before { background:linear-gradient(90deg, var(--accent), #22d3ee); }
+.ws-card.review-ws::before { background:linear-gradient(90deg, var(--warning), #f97316); }
+.ws-card.delete-ws::before { background:linear-gradient(90deg, var(--purple), #ec4899); }
+
+/* ─── Modal ─── */
+.modal-bg {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,.7); backdrop-filter:blur(6px);
+  z-index:200; align-items:center; justify-content:center;
+}
+.modal-bg.show { display:flex; }
+.modal {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius-xl); padding:36px;
+  max-width:460px; width:92%;
+  box-shadow:var(--shadow-lg);
+  animation:modalIn .3s ease;
+}
+@keyframes modalIn { from { opacity:0; transform:scale(.95) translateY(10px); } to { opacity:1; transform:scale(1) translateY(0); } }
+
+/* ─── Footer ─── */
+.footer-bar {
+  display:flex; align-items:center; justify-content:center; gap:24px;
+  padding:16px; font-size:11px; color:var(--text-muted);
+  border-top:1px solid var(--border); margin-top:48px;
+}
+.footer-bar span { display:flex; align-items:center; gap:5px; }
+
+/* ─── Responsive ─── */
+@media (max-width:1024px) {
+  .g3 { grid-template-columns:1fr 1fr; }
+  .g4 { grid-template-columns:1fr 1fr; }
+  .layout-sb { grid-template-columns:1fr; }
+  .sb { position:static; }
+}
+@media (max-width:768px) {
+  .g2,.g3,.g4 { grid-template-columns:1fr; }
+  .nav-pills { display:none; }
+  .screen { padding:16px; }
+  .top-bar { padding:0 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ TOP BAR ═══ -->
+<div class="top-bar">
+  <div class="logo">
+    <div class="logo-mark">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
+    <span class="logo-text"><span class="highlight">ICH</span> Digital Platform</span>
+  </div>
+  <div class="nav-pills">
+    <button class="nav-pill active" onclick="go('dash')">Dashboard</button>
+    <button class="nav-pill" onclick="go('spaces')">Workspaces</button>
+    <button class="nav-pill" onclick="go('docs')">Documents</button>
+    <button class="nav-pill" onclick="go('upload')">Upload</button>
+    <button class="nav-pill" onclick="go('access')">Access Control</button>
+    <button class="nav-pill" onclick="go('admin')">Administration</button>
+    <button class="nav-pill" onclick="go('discuss')">Discussions</button>
+  </div>
+  <div class="top-right">
+    <div class="notif-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      <div class="notif-dot"></div>
+    </div>
+    <div class="avatar">JM</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!--  LOGIN                                     -->
+<!-- ════════════════════════════════════════════ -->
+<div class="screen active" id="s-login">
+  <div class="login-wrap">
+    <div class="login-box" style="text-align:center;">
+      <div class="shield">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      </div>
+      <h1 style="font-size:22px;font-weight:800;color:var(--white);letter-spacing:-.5px;">ICH Digital Platform</h1>
+      <p style="color:var(--text-secondary);font-size:13.5px;margin:8px 0 32px;">Secure collaboration for regulatory harmonisation</p>
+      <div class="fg">
+        <input class="fi" placeholder="Email address" value="j.mueller@swissmedic.ch" style="text-align:center;">
+      </div>
+      <button class="passkey-btn" onclick="go('dash')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+        Sign in with Passkey
+      </button>
+      <p style="color:var(--text-muted);font-size:12px;margin-top:14px;cursor:pointer;">or use TOTP authenticator →</p>
+      <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span style="font-size:11.5px;color:var(--accent);">End-to-end encrypted · Swiss-hosted · Zero-operator access</span>
+      </div>
+    </div>
+    <p style="text-align:center;color:var(--text-muted);font-size:11px;margin-top:20px;">Hosted exclusively in Switzerland by Infomaniak · Powered by Tuliptech</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!--  DASHBOARD                                 -->
+<!-- ════════════════════════════════════════════ -->
+<div class="screen" id="s-dash">
+  <div class="ph">
+    <div class="ph-title">Welcome back, Dr. Julia Müller</div>
+    <div class="ph-desc">Swissmedic · Regulatory Authority</div>
+  </div>
+
+  <div class="g4 gap-24" style="margin-bottom:24px;">
+    <div class="stat blue"><i data-lucide="layout-grid" style="color:var(--primary);"></i><div class="stat-val blue">4</div><div class="stat-label">Active Workspaces</div>
+    </div>
+    <div class="stat green">
+      <div class="stat-val green">23</div>
+      <div class="stat-label">Documents Shared</div>
+    </div>
+    <div class="stat yellow">
+      <div class="stat-val yellow">7</div>
+      <div class="stat-label">Pending Reviews</div>
+    </div>
+    <div class="stat purple">
+      <div class="stat-val purple">156</div>
+      <div class="stat-label">Audit Events (30d)</div>
+    </div>
+  </div>
+
+  <div class="g2 gap-24">
+    <!-- Left: Workspaces -->
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">Active Workspaces</div></div>
+        <button class="btn btn-ghost btn-sm" onclick="go('spaces')">View All →</button>
+      </div>
+      <div class="fitem" onclick="go('docs')">
+        <div class="ficon folder"><i data-lucide="folder-open" style="color:#7bb3ff;"></i></div>
+        <div class="finfo">
+          <div class="fname">ICH Q12 Post-Approval CMC</div>
+          <div class="fmeta">12 documents · 8 participants</div>
+        </div>
+        <span class="tag tag-green">Active</span>
+      </div>
+      <div class="fitem">
+        <div class="ficon folder"><i data-lucide="folder-open" style="color:#7bb3ff;"></i></div>
+        <div class="finfo">
+          <div class="fname">ICH M11 CeSHarP Pilot</div>
+          <div class="fmeta">8 documents · 5 participants</div>
+        </div>
+        <span class="tag tag-green">Active</span>
+      </div>
+      <div class="fitem">
+        <div class="ficon folder" style="background:var(--warning-dim);"><i data-lucide="folder-open" style="color:#fbbf24;"></i></div>
+        <div class="finfo">
+          <div class="fname">ICH E6(R3) GCP Guideline</div>
+          <div class="fmeta">31 documents · 14 participants</div>
+        </div>
+        <span class="tag tag-yellow">Review</span>
+      </div>
+    </div>
+
+    <!-- Right: Activity -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Recent Activity</div>
+      </div>
+      <div class="tl">
+        <div class="tl-item"><div class="tl-dot green"></div><div class="tl-text"><strong>Pfizer Inc.</strong> granted CCI access to Q12 workspace</div><div class="tl-time">Today, 14:32 CET</div></div>
+        <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-text"><strong>Dr. Tanaka (PMDA)</strong> uploaded assessment to M11 workspace</div><div class="tl-time">Today, 11:15 CET</div></div>
+        <div class="tl-item"><div class="tl-dot yellow"></div><div class="tl-text"><strong>EMA</strong> requested review of stability data in Q12</div><div class="tl-time">Yesterday, 16:48 CET</div></div>
+        <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-text"><strong>System</strong> — Encryption key rotated for M11 workspace</div><div class="tl-time">Yesterday, 09:00 CET</div></div>
+        <div class="tl-item"><div class="tl-dot green"></div><div class="tl-text"><strong>Health Canada</strong> completed review of case study draft</div><div class="tl-time">25 Oct, 17:20 CET</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Encryption Status -->
+  <div class="card" style="margin-top:24px;">
+    <div class="card-header">
+      <div class="card-title">🔐 Encryption & Security Status</div>
+      <span class="key-badge key-t2"><i data-lucide="shield-check" class="sm"></i> Your keys are secure · Shamir 2-of-3 active</span>
+    </div>
+    <div class="enc-box">
+      <div class="g3 gap-24">
+        <div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-bottom:10px;font-weight:600;">Tier 1 — Platform Data</div>
+          <div class="key-badge key-t1" style="margin-bottom:10px;"><i data-lucide="key-round" class="sm"></i> ICH-held keys (Securosys HSM)</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;">AES-256 encryption at rest<br>Platform metadata & admin data</div>
+        </div>
+        <div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-bottom:10px;font-weight:600;">Tier 2 — Confidential Data (CCI)</div>
+          <div class="key-badge key-t2" style="margin-bottom:10px;"><i data-lucide="key-round" class="sm"></i> Sponsor-held KEKs (client-side)</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;">Envelope encryption (HPKE)<br>Zero-operator access · Crypto-shredding</div>
+        </div>
+        <div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-bottom:10px;font-weight:600;">Key Custody</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.8;">
+            <i data-lucide="check-circle-2" class="sm" style="color:var(--accent);"></i> 3 custodians active (2-of-3 quorum)<br>
+            <i data-lucide="check-circle-2" class="sm" style="color:var(--accent);"></i> Last attestation: 24 Oct 2026<br>
+            <i data-lucide="check-circle-2" class="sm" style="color:var(--accent);"></i> No key recovery events<br>
+            <i data-lucide="shield" class="sm" style="color:var(--primary);"></i> ICH & platform hold zero shares
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <span><i data-lucide="map-pin" class="sm"></i> Hosted in Switzerland</span>
+    <span>🔒 ISO 27001:2022 Certified</span>
+    <span>⚡ Infomaniak Cloud</span>
+    <span><i data-lucide="shield" class="sm"></i> Securosys HSM</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!--  WORKSPACES                                -->
+<!-- ════════════════════════════════════════════ -->
+<div class="screen" id="s-spaces">
+  <div class="ph">
+    <div class="ph-title">Collaboration Workspaces</div>
+    <div class="ph-desc">Temporary, project-specific collaboration spaces with defined lifecycles</div>
+  </div>
+
+  <div style="display:flex;gap:10px;margin-bottom:24px;">
+    <input class="fi" placeholder="Search workspaces..." style="max-width:320px;">
+    <select class="fi" style="width:160px;"><option>All Statuses</option><option>Active</option><option>Under Review</option><option>Pending Deletion</option></select>
+    <button class="btn btn-primary">+ New Workspace</button>
+  </div>
+
+  <div class="g3 gap-24">
+    <div class="ws-card active-ws" onclick="go('docs')">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <span class="tag tag-green">Active</span>
+        <span style="font-size:11px;color:var(--text-muted);">Expires 15 Mar 2027</span>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:5px;">ICH Q12 Post-Approval CMC</h3>
+      <p style="font-size:12.5px;color:var(--text-secondary);margin-bottom:18px;line-height:1.4;">Lifecycle management changes — multi-regional assessment</p>
+      <div style="display:flex;gap:16px;font-size:12px;color:var(--text-muted);margin-bottom:14px;">
+        <span><i data-lucide="file-text" class="sm"></i> 12 docs</span><span><i data-lucide="users" class="sm"></i> 8 users</span><span><i data-lucide="lock" class="sm"></i> 4 CCI</span>
+      </div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;">
+        <span class="tag tag-blue">Swissmedic</span>
+        <span class="tag tag-blue">EMA</span>
+        <span class="tag tag-blue">FDA</span>
+        <span class="tag tag-blue">PMDA</span>
+      </div>
+    </div>
+
+    <div class="ws-card active-ws">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <span class="tag tag-green">Active</span>
+        <span style="font-size:11px;color:var(--text-muted);">Expires 30 Jun 2027</span>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:5px;">ICH M11 CeSHarP Pilot</h3>
+      <p style="font-size:12.5px;color:var(--text-secondary);margin-bottom:18px;line-height:1.4;">Clinical Electronic Structured Harmonised Protocol</p>
+      <div style="display:flex;gap:16px;font-size:12px;color:var(--text-muted);margin-bottom:14px;">
+        <span><i data-lucide="file-text" class="sm"></i> 8 docs</span><span><i data-lucide="users" class="sm"></i> 5 users</span><span><i data-lucide="lock" class="sm"></i> 2 CCI</span>
+      </div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;">
+        <span class="tag tag-blue">FDA</span>
+        <span class="tag tag-blue">EMA</span>
+        <span class="tag tag-blue">PMDA</span>
+      </div>
+    </div>
+
+    <div class="ws-card review-ws">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <span class="tag tag-yellow">Under Review</span>
+        <span style="font-size:11px;color:var(--text-muted);">Expires 20 Dec 2026</span>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:5px;">ICH E6(R3) GCP Guideline</h3>
+      <p style="font-size:12.5px;color:var(--text-secondary);margin-bottom:18px;line-height:1.4;">Good Clinical Practice revision — sponsor data review</p>
+      <div style="display:flex;gap:16px;font-size:12px;color:var(--text-muted);margin-bottom:14px;">
+        <span><i data-lucide="file-text" class="sm"></i> 31 docs</span><span><i data-lucide="users" class="sm"></i> 14 users</span><span><i data-lucide="lock" class="sm"></i> 12 CCI</span>
+      </div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;">
+        <span class="tag tag-blue">Swissmedic</span>
+        <span class="tag tag-blue">EMA</span>
+        <span class="tag tag-blue">FDA</span>
+        <span class="tag tag-blue">+5 more</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!--  DOCUMENTS                                 -->
+<!-- ════════════════════════════════════════════ -->
+<div class="screen" id="s-docs">
+  <div class="ph">
+    <div class="ph-bc"><a href="#" onclick="go('spaces')">Workspaces</a> / ICH Q12 Post-Approval CMC</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div class="ph-title">ICH Q12 Post-Approval CMC</div>
+        <div class="ph-desc">Lifecycle management · 8 participants · Expires 15 Mar 2027</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-primary" onclick="go('upload')"><i data-lucide="upload"></i> Upload</button>
+        <button class="btn btn-ghost" onclick="go('access')"><i data-lucide="shield-check"></i> Access</button>
+        <button class="btn btn-ghost">⚙️</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout-sb">
+    <div class="sb">
+      <div class="sb-section">Documents</div>
+      <div class="sb-item active"><i data-lucide="files"></i> All Documents (12)</div>
+      <div class="sb-item"><i data-lucide="lock"></i> CCI Documents (4)</div>
+      <div class="sb-item"><i data-lucide="clipboard-list"></i> Work Products (5)</div>
+      <div class="sb-item"><i data-lucide="bar-chart-3"></i> Assessments (3)</div>
+      <div class="sb-section">Collaborate</div>
+      <div class="sb-item" onclick="go('discuss')" style="cursor:pointer;"><i data-lucide="message-square"></i> Discussions (3)</div>
+      <div class="sb-item"><i data-lucide="milestone"></i> Milestones</div>
+      <div class="sb-item"><i data-lucide="activity"></i> Activity Log</div>
+      <div class="sb-section">Participants (8)</div>
+      <div class="sb-item"><i data-lucide="building-2"></i> Swissmedic (2)</div>
+      <div class="sb-item"><i data-lucide="building-2"></i> EMA (2)</div>
+      <div class="sb-item"><i data-lucide="building-2"></i> FDA (2)</div>
+      <div class="sb-item"><i data-lucide="building-2"></i> PMDA (1)</div>
+      <div class="sb-item"><i data-lucide="briefcase"></i> Pfizer Inc. (1)</div>
+    </div>
+
+    <div>
+      <div style="display:flex;gap:10px;margin-bottom:16px;">
+        <input class="fi" placeholder="Search documents..." style="flex:1;">
+        <select class="fi" style="width:150px;"><option>All Types</option><option>CCI</option><option>Regulatory</option><option>Work Product</option></select>
+      </div>
+
+      <div class="fitem">
+        <div class="ficon pdf"><i data-lucide="file-text" style="color:#f87171;"></i></div>
+        <div class="finfo">
+          <div class="fname">Stability-Data-Assessment-Q12-2026.pdf</div>
+          <div class="fmeta">PDF/A · 4.2 MB · EMA · 24 Oct · v3</div>
+        </div>
+        <span class="tag tag-red"><i data-lucide="lock" class="sm"></i> CCI</span>
+        <div class="factions">
+          <button class="btn btn-ghost btn-sm" onclick="go('viewer')">View</button>
+          <button class="btn btn-ghost btn-sm btn-icon">↓</button>
+        </div>
+      </div>
+
+      <div class="fitem">
+        <div class="ficon ectd"><i data-lucide="package" style="color:#c4b5fd;"></i></div>
+        <div class="finfo">
+          <div class="fname">eCTD-Module3-Quality-Pfizer.xml</div>
+          <div class="fmeta">eCTD · 18.7 MB · Pfizer · 23 Oct · v1</div>
+        </div>
+        <span class="tag tag-red"><i data-lucide="lock" class="sm"></i> CCI</span>
+        <div class="factions">
+          <button class="btn btn-ghost btn-sm" onclick="go('ectd')">View</button>
+        </div>
+      </div>
+
+      <div class="fitem">
+        <div class="ficon doc"><i data-lucide="file-pen" style="color:#4ade80;"></i></div>
+        <div class="finfo">
+          <div class="fname">Q12-Harmonisation-Case-Study-Draft.docx</div>
+          <div class="fmeta">DOCX · 890 KB · Shared · 22 Oct · v7</div>
+        </div>
+        <span class="tag tag-green">Work Product</span>
+        <div class="factions">
+          <button class="btn btn-primary btn-sm" onclick="go('editor')">✏️ Edit</button>
+          <button class="btn btn-ghost btn-sm btn-icon">↓</button>
+        </div>
+      </div>
+
+      <div class="fitem">
+        <div class="ficon xml"><i data-lucide="file-code-2" style="color:#7bb3ff;"></i></div>
+        <div class="finfo">
+          <div class="fname">CDISC-ADaM-Dataset-PK-Analysis.xml</div>
+          <div class="fmeta">CDISC ADaM · 12.3 MB · Pfizer · 21 Oct · v1</div>
+        </div>
+        <span class="tag tag-red"><i data-lucide="lock" class="sm"></i> CCI</span>
+        <div class="factions">
+          <button class="btn btn-ghost btn-sm">View</button>
+        </div>
+      </div>
+
+      <div class="fitem">
+        <div class="ficon pdf"><i data-lucide="file-text" style="color:#f87171;"></i></div>
+        <div class="finfo">
+          <div class="fname">Swissmedic-Assessment-Report-v2.pdf</div>
+          <div class="fmeta">PDF/A · 2.1 MB · Swissmedic · 20 Oct · v2</div>
+        </div>
+        <span class="tag tag-blue">Regulatory</span>
+        <div class="factions">
+          <button class="btn btn-ghost btn-sm">View</button>
+          <button class="btn btn-ghost btn-sm">📝</button>
+          <button class="btn btn-ghost btn-sm btn-icon">↓</button>
+        </div>
+      </div>
+
+      <div class="fitem">
+        <div class="ficon doc"><i data-lucide="file-pen" style="color:#4ade80;"></i></div>
+        <div class="finfo">
+          <div class="fname">Multi-Regional-Analysis-Template.docx</div>
+          <div class="fmeta">DOCX · 456 KB · Shared · 18 Oct · v4</div>
+        </div>
+        <span class="tag tag-green">Work Product</span>
+        <div class="factions">
+          <button class="btn btn-primary btn-sm" onclick="go('editor')">✏️ Edit</button>
+          <button class="btn btn-ghost btn-sm btn-icon">↓</button>
+        </div>
+      </div>
+
+      <div class="fitem">
+        <div class="ficon pdf"><i data-lucide="file-text" style="color:#f87171;"></i></div>
+        <div class="finfo">
+          <div class="fname">FDA-Review-Notes-Manufacturing.pdf</div>
+          <div class="fmeta">PDF/A · 1.8 MB · FDA · 17 Oct · v1</div>
+        </div>
+        <span class="tag tag-blue">Regulatory</span>
+        <div class="factions">
+          <button class="btn btn-ghost btn-sm">View</button>
+          <button class="btn btn-ghost btn-sm btn-icon">↓</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!--  UPLOAD                                    -->
+<!-- ════════════════════════════════════════════ -->
+<div class="screen" id="s-upload">
+  <div class="ph">
+    <div class="ph-bc"><a href="#" onclick="go('docs')">Q12 Post-Approval CMC</a> / Upload Document</div>
+    <div class="ph-title">Upload Document</div>
+    <div class="ph-desc">Documents are encrypted client-side before upload. CCI uses your organisation's encryption keys.</div>
+  </div>
+
+  <div class="g2 gap-24">
+    <div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:20px;">Document Details</div>
+        <div class="fg">
+          <label class="fl">File</label>
+          <div class="dropzone" id="dz" onclick="fillDZ()">
+            <div style="margin-bottom:10px;opacity:.6;"><i data-lucide="upload-cloud" style="width:40px;height:40px;color:var(--text-secondary);"></i></div>
+            <div style="font-size:14px;color:var(--text);">Drop file here or click to browse</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">PDF/A, XML, DOCX, eCTD, CDISC · Max 2 GB</div>
+          </div>
+        </div>
+        <div class="fg">
+          <label class="fl">Classification</label>
+          <select class="fi">
+            <option>🔐 CCI — Commercially Confidential Information</option>
+            <option>📋 Regulatory Document</option>
+            <option>📝 Work Product (shared)</option>
+          </select>
+          <div class="fhint">CCI documents use envelope encryption. Only authorised parties can decrypt.</div>
+        </div>
+        <div class="fg">
+          <label class="fl">Title</label>
+          <input class="fi" placeholder="e.g., Phase 3 Stability Data Report">
+        </div>
+        <div class="fg">
+          <label class="fl">Description</label>
+          <textarea class="fi" rows="3" placeholder="Brief description..."></textarea>
+        </div>
+        <div class="fg">
+          <label class="fl">Category</label>
+          <select class="fi"><option>Quality / CMC</option><option>Clinical</option><option>Non-Clinical</option><option>Regulatory Submission</option></select>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:20px;">Encryption & Access</div>
+        <div class="enc-box">
+          <div style="text-align:center;margin-bottom:16px;">
+            <div style="font-size:15px;font-weight:700;color:var(--white);">Client-Side Encryption</div>
+            <div style="font-size:12.5px;color:var(--text-secondary);margin-top:4px;">Your file is encrypted in the browser before upload</div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;">
+            <span class="key-badge key-t2"><i data-lucide="key-round" class="sm"></i> Your KEK</span>
+            <span style="color:var(--text-muted);font-size:16px;">→</span>
+            <span class="key-badge key-t1"><i data-lucide="lock" class="sm"></i> AES-256-GCM</span>
+            <span style="color:var(--text-muted);font-size:16px;">→</span>
+            <span class="key-badge key-t2"><i data-lucide="package-check" class="sm"></i> Encrypted</span>
+          </div>
+          <div style="text-align:center;margin-top:12px;font-size:11px;color:var(--text-muted);">
+            Platform operators and ICH administrators cannot decrypt this document
+          </div>
+        </div>
+
+        <div style="margin-top:20px;">
+          <div class="card-title" style="margin-bottom:4px;">Grant Access To</div>
+          <div class="fhint" style="margin-bottom:14px;">Select which regulatory authorities may decrypt this CCI document</div>
+
+          <label class="ck-row"><input type="checkbox" checked><span class="ck-label">Swissmedic (Switzerland)</span><span class="ck-status tag tag-green" style="font-size:10px;">✓ Key verified</span></label>
+          <label class="ck-row"><input type="checkbox" checked><span class="ck-label">EMA (European Union)</span><span class="ck-status tag tag-green" style="font-size:10px;">✓ Key verified</span></label>
+          <label class="ck-row"><input type="checkbox"><span class="ck-label">FDA (United States)</span><span class="ck-status tag tag-green" style="font-size:10px;">✓ Key verified</span></label>
+          <label class="ck-row"><input type="checkbox"><span class="ck-label">PMDA (Japan)</span><span class="ck-status tag tag-green" style="font-size:10px;">✓ Key verified</span></label>
+          <label class="ck-row"><input type="checkbox"><span class="ck-label">Health Canada</span><span class="ck-status tag tag-green" style="font-size:10px;">✓ Key verified</span></label>
+        </div>
+
+        <div style="margin-top:16px;padding:14px;background:var(--surface2);border-radius:8px;font-size:11.5px;color:var(--text-secondary);line-height:1.5;">
+          Each selected authority receives a unique encrypted key envelope (HPKE). Revoking access deletes the envelope — the document is never re-encrypted.
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:16px;">
+        <button class="btn btn-primary btn-lg" style="flex:1;" onclick="showM()"><i data-lucide="lock"></i> Encrypt & Upload</button>
+        <button class="btn btn-ghost btn-lg" onclick="go('docs')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!--  ACCESS CONTROL                            -->
+<!-- ════════════════════════════════════════════ -->
+<div class="screen" id="s-access">
+  <div class="ph">
+    <div class="ph-bc"><a href="#" onclick="go('docs')">Q12 Post-Approval CMC</a> / Access Control</div>
+    <div class="ph-title">Sponsor Access Control</div>
+    <div class="ph-desc">Manage who can decrypt CCI documents. Access is cryptographically enforced — not just policy.</div>
+  </div>
+
+  <div class="card" style="margin-bottom:24px;">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Sponsor: Pfizer Inc.</div>
+        <div class="card-desc">Data controller — retains ownership of all uploaded CCI</div>
+      </div>
+      <span class="tag tag-green">Data Controller</span>
+    </div>
+
+    <table class="tbl">
+      <thead>
+        <tr><th>Document</th><th>Uploaded</th><th>Swissmedic</th><th>EMA</th><th>FDA</th><th>PMDA</th><th>Health Canada</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Stability-Data-Assessment.pdf</strong></td>
+          <td style="color:var(--text-muted);">24 Oct</td>
+          <td><span class="tag tag-green">✓ Granted</span></td>
+          <td><span class="tag tag-green">✓ Granted</span></td>
+          <td><span class="tag tag-yellow">⏳ Pending</span></td>
+          <td><span class="tag tag-red">✗ Denied</span></td>
+          <td><span style="color:var(--text-muted);">—</span></td>
+        </tr>
+        <tr>
+          <td><strong>eCTD-Module3-Quality.xml</strong></td>
+          <td style="color:var(--text-muted);">23 Oct</td>
+          <td><span class="tag tag-green">✓ Granted</span></td>
+          <td><span class="tag tag-green">✓ Granted</span></td>
+          <td><span class="tag tag-green">✓ Granted</span></td>
+          <td><span class="tag tag-green">✓ Granted</span></td>
+          <td><span class="tag tag-green">✓ Granted</span></td>
+        </tr>
+        <tr>
+          <td><strong>CDISC-ADaM-PK-Analysis.xml</strong></td>
+          <td style="color:var(--text-muted);">21 Oct</td>
+          <td><span class="tag tag-green">✓ Granted</span></td>
+          <td><span class="tag tag-yellow">⏳ Pending</span></td>
+          <td><span style="color:var(--text-muted);">—</span></td>
+          <td><span style="color:var(--text-muted);">—</span></td>
+          <td><span style="color:var(--text-muted);">—</span></td>
+        </tr>
+        <tr>
+          <td><strong>Manufacturing-Process-Data.pdf</strong></td>
+          <td style="color:var(--text-muted);">19 Oct</td>
+          <td><span class="tag tag-green">✓ Granted</span></td>
+          <td><span class="tag tag-green">✓ Granted</span></td>
+          <td><span class="tag tag-green">✓ Granted</span></td>
+          <td><span style="color:var(--text-muted);">—</span></td>
+          <td><span style="color:var(--text-muted);">—</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:16px;padding:14px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--text-secondary);line-height:1.5;">
+      <strong style="color:var(--white);">How it works:</strong> Each "Granted" creates an encrypted key envelope for that authority. Revoking access deletes the envelope. <strong>The document is never re-encrypted when access changes.</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Consent Audit Trail</div>
+      <button class="btn btn-ghost btn-sm">Export CSV</button>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>Timestamp (CET)</th><th>Action</th><th>Document</th><th>Authority</th><th>By</th></tr></thead>
+      <tbody>
+        <tr><td>24 Oct 14:32</td><td><span class="tag tag-green">Granted</span></td><td>Stability-Data-Assessment.pdf</td><td>Swissmedic</td><td>M. Chen (Pfizer)</td></tr>
+        <tr><td>24 Oct 14:30</td><td><span class="tag tag-green">Granted</span></td><td>Stability-Data-Assessment.pdf</td><td>EMA</td><td>M. Chen (Pfizer)</td></tr>
+        <tr><td>24 Oct 14:28</td><td><span class="tag tag-yellow">Requested</span></td><td>Stability-Data-Assessment.pdf</td><td>FDA</td><td>System</td></tr>
+        <tr><td>23 Oct 11:15</td><td><span class="tag tag-green">Granted</span></td><td>eCTD-Module3-Quality.xml</td><td>All 5 RAs</td><td>M. Chen (Pfizer)</td></tr>
+        <tr><td>22 Oct 09:45</td><td><span class="tag tag-red">Revoked</span></td><td>Manufacturing-Process-Data.pdf</td><td>PMDA</td><td>M. Chen (Pfizer)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!--  ADMIN                                     -->
+<!-- ════════════════════════════════════════════ -->
+<div class="screen" id="s-admin">
+  <div class="ph">
+    <div class="ph-title">Administration</div>
+    <div class="ph-desc">ICH platform oversight, security monitoring and governance</div>
+  </div>
+
+  <div class="g4 gap-24" style="margin-bottom:24px;">
+    <div class="stat blue"><div class="stat-val blue">12</div><div class="stat-label">Active Workspaces</div></div>
+    <div class="stat green"><div class="stat-val green">89</div><div class="stat-label">Platform Users</div></div>
+    <div class="stat yellow"><div class="stat-val yellow">347</div><div class="stat-label">Documents</div></div>
+    <div class="stat purple"><div class="stat-val purple">2,841</div><div class="stat-label">Audit Events (30d)</div></div>
+  </div>
+
+  <div class="g2 gap-24">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Workspace Overview</div></div>
+      <table class="tbl">
+        <thead><tr><th>Workspace</th><th>Status</th><th>Users</th><th>Docs</th><th>Expires</th></tr></thead>
+        <tbody>
+          <tr><td>Q12 Post-Approval CMC</td><td><span class="tag tag-green">Active</span></td><td>8</td><td>12</td><td>15 Mar 2027</td></tr>
+          <tr><td>M11 CeSHarP Pilot</td><td><span class="tag tag-green">Active</span></td><td>5</td><td>8</td><td>30 Jun 2027</td></tr>
+          <tr><td>E6(R3) GCP Guideline</td><td><span class="tag tag-yellow">Review</span></td><td>14</td><td>31</td><td>20 Dec 2026</td></tr>
+          <tr><td>Q14 Analytical Procedures</td><td><span class="tag tag-purple">Pending Delete</span></td><td>6</td><td>18</td><td>Expired</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">Security Status</div></div>
+      <div class="sec-row"><span style="font-size:13px;"><i data-lucide="shield-check"></i> Platform encryption</span><span class="tag tag-green">Healthy</span></div>
+      <div class="sec-row"><span style="font-size:13px;"><i data-lucide="key-round"></i> HSM (Securosys)</span><span class="tag tag-green">Connected</span></div>
+      <div class="sec-row"><span style="font-size:13px;"><i data-lucide="scan-search"></i> IDS/IPS</span><span class="tag tag-green">No threats</span></div>
+      <div class="sec-row"><span style="font-size:13px;"><i data-lucide="alert-triangle"></i> SIEM alerts (24h)</span><span class="tag tag-yellow">2 low</span></div>
+      <div class="sec-row"><span style="font-size:13px;"><i data-lucide="database-backup"></i> Backup</span><span class="tag tag-green">Today 03:00</span></div>
+      <div class="sec-row"><span style="font-size:13px;"><i data-lucide="map-pin"></i> Data residency</span><span class="tag tag-green">Switzerland</span></div>
+    </div>
+  </div>
+
+  <!-- Deletion Workflow -->
+  <div class="card" style="margin-top:24px;">
+    <div class="card-header">
+      <div class="card-title"><i data-lucide="alert-triangle" class="sm"></i> Deletion Workflow — Pending Authorisation</div>
+      <span class="tag tag-yellow">1 pending</span>
+    </div>
+    <div style="padding:20px;border:1px solid rgba(245,158,11,.2);border-radius:var(--radius-lg);background:rgba(245,158,11,.03);">
+      <div style="display:flex;justify-content:space-between;align-items:start;gap:24px;">
+        <div style="flex:1;">
+          <h3 style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:6px;">Q14 Analytical Procedures — End of Collaboration</h3>
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:18px;">Retention expired. All participants notified. Downloads confirmed 5/6.</p>
+          <div class="step">
+            <div class="step-num done">✓</div>
+            <div><div style="font-size:13px;color:var(--white);">Participants notified</div><div style="font-size:11px;color:var(--text-muted);">Completed 20 Oct</div></div>
+          </div>
+          <div class="step">
+            <div class="step-num done">✓</div>
+            <div><div style="font-size:13px;color:var(--white);">Downloads confirmed (5/6)</div><div style="font-size:11px;color:var(--text-muted);">Pending — Health Canada</div></div>
+          </div>
+          <div class="step">
+            <div class="step-num now">3</div>
+            <div><div style="font-size:13px;color:var(--white);font-weight:600;">Manual authorisation required</div><div style="font-size:11px;color:var(--text-muted);">Awaiting ICH Management Committee</div></div>
+          </div>
+          <div class="step">
+            <div class="step-num wait">4</div>
+            <div><div style="font-size:13px;color:var(--text-muted);">Crypto-shredding</div><div style="font-size:11px;color:var(--text-muted);">KEKs destroyed · All copies permanently unreadable</div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0;">
+          <button class="btn btn-warning"><i data-lucide="alert-triangle" class="sm"></i> Authorise Deletion</button>
+          <button class="btn btn-ghost btn-sm">Extend Retention</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audit Trail -->
+  <div class="card" style="margin-top:24px;">
+    <div class="card-header">
+      <div class="card-title">Audit Trail</div>
+      <button class="btn btn-ghost btn-sm">Export Full Log</button>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>Timestamp</th><th>User</th><th>Action</th><th>Resource</th><th>IP</th></tr></thead>
+      <tbody>
+        <tr><td>26 Oct 15:41</td><td>J. Müller (Swissmedic)</td><td>Viewed document</td><td>Stability-Data-Assessment.pdf</td><td>195.176.•••.•••</td></tr>
+        <tr><td>26 Oct 15:38</td><td>M. Chen (Pfizer)</td><td>Granted CCI access</td><td>Stability-Data → Swissmedic</td><td>147.161.•••.•••</td></tr>
+        <tr><td>26 Oct 14:22</td><td>System</td><td>Key rotation</td><td>M11 workspace DEKs</td><td>—</td></tr>
+        <tr><td>26 Oct 13:15</td><td>A. Tanaka (PMDA)</td><td>Uploaded document</td><td>PMDA-Assessment-M11.pdf</td><td>210.171.•••.•••</td></tr>
+        <tr><td>26 Oct 11:00</td><td>System</td><td>Backup completed</td><td>All workspaces — verified</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer-bar">
+    <span><i data-lucide="map-pin" class="sm"></i> Hosted in Switzerland</span>
+    <span><i data-lucide="badge-check" class="sm"></i> ISO 27001:2022</span>
+    <span><i data-lucide="cloud" class="sm"></i> Infomaniak</span>
+    <span><i data-lucide="shield" class="sm"></i> Securosys HSM</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!--  PDF VIEWER                               -->
+<!-- ════════════════════════════════════════════ -->
+<div class="screen" id="s-viewer">
+  <div class="ph">
+    <div class="ph-bc"><a href="#" onclick="go('docs')">Q12 Post-Approval CMC</a> / Stability-Data-Assessment-Q12-2026.pdf</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div class="ph-title">Stability-Data-Assessment-Q12-2026.pdf</div>
+        <div class="ph-desc">PDF/A · 4.2 MB · Uploaded by EMA · Version 3 · 24 Oct 2026</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span class="tag tag-red" style="font-size:12px;"><i data-lucide="lock-open" class="sm"></i> CCI — Decrypted in browser</span>
+        <button class="btn btn-ghost btn-sm"><i data-lucide="download" class="sm"></i> Download</button>
+        <button class="btn btn-ghost btn-sm"><i data-lucide="share-2" class="sm"></i> Share</button>
+        <button class="btn btn-ghost btn-sm" onclick="go('docs')"><i data-lucide="x" class="sm"></i> Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 320px;gap:20px;">
+    <!-- PDF Area -->
+    <div>
+      <!-- Toolbar -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--surface);border:1px solid var(--border);border-radius:10px 10px 0 0;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="btn btn-ghost btn-sm btn-icon"><i data-lucide="chevron-left" class="sm"></i></button>
+          <span style="font-size:13px;color:var(--text-secondary);">Page <strong style="color:var(--white);">3</strong> of 24</span>
+          <button class="btn btn-ghost btn-sm btn-icon"><i data-lucide="chevron-right" class="sm"></i></button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="btn btn-ghost btn-sm btn-icon"><i data-lucide="minus" class="sm"></i></button>
+          <span style="font-size:12px;color:var(--text-secondary);">100%</span>
+          <button class="btn btn-ghost btn-sm btn-icon"><i data-lucide="plus" class="sm"></i></button>
+          <div style="width:1px;height:20px;background:var(--border);margin:0 4px;"></div>
+          <button class="btn btn-ghost btn-sm btn-icon"><i data-lucide="maximize" class="sm"></i></button>
+          <button class="btn btn-ghost btn-sm btn-icon"><i data-lucide="printer" class="sm"></i></button>
+        </div>
+      </div>
+
+      <!-- PDF Content Mockup -->
+      <div style="background:#1e2028;border:1px solid var(--border);border-top:none;border-radius:0 0 10px 10px;padding:40px;min-height:600px;position:relative;">
+        <!-- Simulated PDF page -->
+        <div style="background:#fff;color:#1a1a1a;max-width:640px;margin:0 auto;padding:48px;border-radius:4px;box-shadow:0 4px 24px rgba(0,0,0,.5);font-family:Georgia,serif;position:relative;">
+          <div style="font-size:10px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;">Confidential — Commercially Confidential Information</div>
+          <h1 style="font-size:20px;font-weight:700;color:#111;margin-bottom:6px;font-family:Inter,sans-serif;">Stability Data Assessment Report</h1>
+          <h2 style="font-size:14px;font-weight:400;color:#555;margin-bottom:24px;font-family:Inter,sans-serif;">ICH Q12 Post-Approval Changes — Long-Term Stability Study</h2>
+          <div style="font-size:11px;color:#888;margin-bottom:20px;font-family:Inter,sans-serif;">Sponsor: Pfizer Inc. · Protocol: PF-0724891 · Date: October 2026</div>
+          <hr style="border:none;border-top:1px solid #ddd;margin:16px 0;">
+          <h3 style="font-size:14px;font-weight:600;color:#222;margin-bottom:10px;font-family:Inter,sans-serif;">3. Results — 36-Month Stability Data</h3>
+          <p style="font-size:12px;line-height:1.7;color:#333;margin-bottom:12px;">The 36-month stability data for the proposed commercial formulation demonstrate consistent quality attributes within the established specification limits across all tested conditions (25°C/60% RH, 30°C/65% RH, and 40°C/75% RH accelerated).</p>
+          <p style="font-size:12px;line-height:1.7;color:#333;margin-bottom:12px;">No significant trends were observed for assay, degradation products, dissolution, or water content. All individual and mean values met the acceptance criteria specified in Section 2.3.</p>
+          <!-- Simulated table -->
+          <div style="margin:16px 0;padding:12px;background:#f7f7f7;border-radius:4px;font-family:Inter,sans-serif;">
+            <div style="font-size:11px;font-weight:600;color:#555;margin-bottom:8px;">Table 3.1 — Long-Term Stability Results (25°C / 60% RH)</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1px;font-size:10px;">
+              <div style="padding:6px;background:#e8e8e8;font-weight:600;">Time Point</div>
+              <div style="padding:6px;background:#e8e8e8;font-weight:600;">Assay (%)</div>
+              <div style="padding:6px;background:#e8e8e8;font-weight:600;">Degradation (%)</div>
+              <div style="padding:6px;background:#e8e8e8;font-weight:600;">Dissolution (%)</div>
+              <div style="padding:6px;background:#fff;">Initial</div><div style="padding:6px;background:#fff;">99.8</div><div style="padding:6px;background:#fff;">0.12</div><div style="padding:6px;background:#fff;">98.5</div>
+              <div style="padding:6px;background:#f5f5f5;">12 months</div><div style="padding:6px;background:#f5f5f5;">99.5</div><div style="padding:6px;background:#f5f5f5;">0.18</div><div style="padding:6px;background:#f5f5f5;">97.8</div>
+              <div style="padding:6px;background:#fff;">24 months</div><div style="padding:6px;background:#fff;">99.1</div><div style="padding:6px;background:#fff;">0.24</div><div style="padding:6px;background:#fff;">97.2</div>
+              <div style="padding:6px;background:#f5f5f5;">36 months</div><div style="padding:6px;background:#f5f5f5;">98.7</div><div style="padding:6px;background:#f5f5f5;">0.31</div><div style="padding:6px;background:#f5f5f5;">96.9</div>
+            </div>
+          </div>
+          <p style="font-size:12px;line-height:1.7;color:#333;">The shelf-life specification of ≥95.0% assay and ≤0.5% total degradation products is supported by the observed data through 36 months under long-term conditions.</p>
+
+          <!-- Annotation markers -->
+          <div style="position:absolute;top:220px;right:60px;width:28px;height:28px;border-radius:50%;background:var(--warning);color:#000;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3);">1</div>
+          <div style="position:absolute;top:380px;right:80px;width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3);">2</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Annotation Sidebar -->
+    <div>
+      <div class="card" style="position:sticky;top:72px;">
+        <div class="card-header">
+          <div class="card-title">Annotations</div>
+          <button class="btn btn-primary btn-sm"><i data-lucide="plus" class="sm"></i> Add Note</button>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:16px;">Annotations are encrypted separately — visible only to authorised parties</div>
+
+        <!-- Annotation 1 -->
+        <div style="padding:14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;border-left:3px solid var(--warning);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-size:12px;font-weight:600;color:var(--warning);">Annotation #1</span>
+            <span style="font-size:10px;color:var(--text-muted);">Page 3, §3</span>
+          </div>
+          <p style="font-size:12.5px;color:var(--text);line-height:1.5;margin-bottom:8px;">The 36-month degradation trend (0.12→0.31%) is within limits but shows a consistent upward trajectory. Request additional data for the 48-month time point.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:11px;color:var(--text-muted);">Dr. J. Müller · Swissmedic</span>
+            <span style="font-size:10px;color:var(--text-muted);">2h ago</span>
+          </div>
+          <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
+            <div style="font-size:11.5px;color:var(--text-secondary);line-height:1.4;padding-left:12px;border-left:2px solid var(--border);">
+              <strong>Dr. K. Weber (EMA):</strong> Agreed. The slope extrapolation to 48 months should also be provided. — <span style="color:var(--text-muted);">45 min ago</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Annotation 2 -->
+        <div style="padding:14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;border-left:3px solid var(--primary);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-size:12px;font-weight:600;color:var(--primary);">Annotation #2</span>
+            <span style="font-size:10px;color:var(--text-muted);">Page 3, Table 3.1</span>
+          </div>
+          <p style="font-size:12.5px;color:var(--text);line-height:1.5;margin-bottom:8px;">Dissolution decrease from 98.5% to 96.9% across 36 months — within spec but approaching the lower limit. How does this correlate with the process change described in Module 3.2.P.3?</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:11px;color:var(--text-muted);">Dr. K. Weber · EMA</span>
+            <span style="font-size:10px;color:var(--text-muted);">Yesterday</span>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <div class="card-title" style="margin-bottom:10px;font-size:13px;">Document Info</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.8;">
+            <strong>Type:</strong> PDF/A<br>
+            <strong>Size:</strong> 4.2 MB<br>
+            <strong>Version:</strong> 3 (latest)<br>
+            <strong>Uploaded:</strong> 24 Oct 2026<br>
+            <strong>By:</strong> EMA<br>
+            <strong>Classification:</strong> <span class="tag tag-red" style="font-size:10px;">CCI</span><br>
+            <strong>Encryption:</strong> <span style="color:var(--accent);">✓ Tier 2 envelope</span><br>
+            <strong>Access:</strong> Swissmedic, EMA (2 envelopes)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!--  eCTD VIEWER                              -->
+<!-- ════════════════════════════════════════════ -->
+<div class="screen" id="s-ectd">
+  <div class="ph">
+    <div class="ph-bc"><a href="#" onclick="go('docs')">Q12 Post-Approval CMC</a> / eCTD-Module3-Quality-Pfizer.xml</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div class="ph-title">eCTD Module 3 — Quality (CMC)</div>
+        <div class="ph-desc">eCTD Structured Submission · Pfizer Inc. · 18.7 MB · v1 · 23 Oct 2026</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span class="tag tag-red" style="font-size:12px;"><i data-lucide="lock" class="sm"></i> CCI — Decrypted in browser</span>
+        <button class="btn btn-ghost btn-sm"><i data-lucide="download" class="sm"></i> Export</button>
+        <button class="btn btn-ghost btn-sm" onclick="go('docs')"><i data-lucide="x" class="sm"></i> Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:300px 1fr;gap:0;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
+    <!-- eCTD Tree Navigation -->
+    <div style="background:var(--surface);border-right:1px solid var(--border);padding:0;overflow-y:auto;max-height:calc(100vh - 160px);">
+      <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+        <i data-lucide="network" style="width:16px;height:16px;color:var(--primary);"></i>
+        <span style="font-size:13px;font-weight:600;color:var(--white);">eCTD Structure</span>
+      </div>
+
+      <!-- Module tree -->
+      <div style="padding:8px;">
+        <!-- Module 1 -->
+        <div style="padding:8px 12px;font-size:12px;color:var(--text-muted);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+          <i data-lucide="chevron-right" style="width:12px;height:12px;"></i>
+          <i data-lucide="folder" style="width:14px;height:14px;"></i>
+          Module 1 — Administrative
+        </div>
+
+        <!-- Module 2 -->
+        <div style="padding:8px 12px;font-size:12px;color:var(--text-muted);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+          <i data-lucide="chevron-right" style="width:12px;height:12px;"></i>
+          <i data-lucide="folder" style="width:14px;height:14px;"></i>
+          Module 2 — CTD Summaries
+        </div>
+
+        <!-- Module 3 — Expanded -->
+        <div style="padding:8px 12px;font-size:12px;color:var(--white);font-weight:600;cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;background:var(--primary-glow);">
+          <i data-lucide="chevron-down" style="width:12px;height:12px;color:var(--primary);"></i>
+          <i data-lucide="folder-open" style="width:14px;height:14px;color:var(--primary);"></i>
+          Module 3 — Quality
+        </div>
+
+        <!-- 3.2 Sub-sections -->
+        <div style="padding-left:24px;">
+          <div style="padding:6px 12px;font-size:12px;color:var(--text-secondary);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+            <i data-lucide="chevron-down" style="width:12px;height:12px;"></i>
+            <i data-lucide="folder-open" style="width:14px;height:14px;"></i>
+            3.2 Body of Data
+          </div>
+
+          <div style="padding-left:24px;">
+            <div style="padding:6px 12px;font-size:12px;color:var(--text-secondary);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+              <i data-lucide="chevron-down" style="width:12px;height:12px;"></i>
+              <i data-lucide="folder-open" style="width:14px;height:14px;"></i>
+              3.2.P Drug Product
+            </div>
+
+            <div style="padding-left:24px;">
+              <div style="padding:6px 12px;font-size:11.5px;color:var(--text-muted);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+                <i data-lucide="file-text" style="width:13px;height:13px;"></i>
+                3.2.P.1 Description and Composition
+              </div>
+              <div style="padding:6px 12px;font-size:11.5px;color:var(--text-muted);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+                <i data-lucide="file-text" style="width:13px;height:13px;"></i>
+                3.2.P.2 Pharmaceutical Development
+              </div>
+              <div style="padding:6px 12px;font-size:11.5px;color:var(--text-muted);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+                <i data-lucide="file-text" style="width:13px;height:13px;"></i>
+                3.2.P.3 Manufacture
+              </div>
+              <div style="padding:6px 12px;font-size:11.5px;color:var(--text-muted);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+                <i data-lucide="file-text" style="width:13px;height:13px;"></i>
+                3.2.P.4 Control of Excipients
+              </div>
+              <div style="padding:6px 12px;font-size:11.5px;color:var(--white);font-weight:500;cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;background:var(--primary-glow);border-left:2px solid var(--primary);">
+                <i data-lucide="file-text" style="width:13px;height:13px;color:var(--primary);"></i>
+                3.2.P.5 Control of Drug Product
+              </div>
+              <div style="padding:6px 12px;font-size:11.5px;color:var(--text-muted);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+                <i data-lucide="file-text" style="width:13px;height:13px;"></i>
+                3.2.P.6 Reference Standards
+              </div>
+              <div style="padding:6px 12px;font-size:11.5px;color:var(--text-muted);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+                <i data-lucide="file-text" style="width:13px;height:13px;"></i>
+                3.2.P.7 Container Closure System
+              </div>
+              <div style="padding:6px 12px;font-size:11.5px;color:var(--text-muted);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+                <i data-lucide="file-text" style="width:13px;height:13px;"></i>
+                3.2.P.8 Stability
+              </div>
+            </div>
+
+            <div style="padding:6px 12px;font-size:12px;color:var(--text-secondary);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;margin-top:2px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+              <i data-lucide="chevron-right" style="width:12px;height:12px;"></i>
+              <i data-lucide="folder" style="width:14px;height:14px;"></i>
+              3.2.S Drug Substance
+            </div>
+
+            <div style="padding:6px 12px;font-size:12px;color:var(--text-secondary);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+              <i data-lucide="chevron-right" style="width:12px;height:12px;"></i>
+              <i data-lucide="folder" style="width:14px;height:14px;"></i>
+              3.2.A Appendices
+            </div>
+
+            <div style="padding:6px 12px;font-size:12px;color:var(--text-secondary);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+              <i data-lucide="chevron-right" style="width:12px;height:12px;"></i>
+              <i data-lucide="folder" style="width:14px;height:14px;"></i>
+              3.2.R Regional Information
+            </div>
+          </div>
+
+          <div style="padding:6px 12px;font-size:12px;color:var(--text-secondary);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;margin-top:2px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+            <i data-lucide="file-text" style="width:14px;height:14px;"></i>
+            3.3 Literature References
+          </div>
+        </div>
+
+        <!-- Module 4 -->
+        <div style="padding:8px 12px;font-size:12px;color:var(--text-muted);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;margin-top:2px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+          <i data-lucide="chevron-right" style="width:12px;height:12px;"></i>
+          <i data-lucide="folder" style="width:14px;height:14px;"></i>
+          Module 4 — Nonclinical
+        </div>
+
+        <!-- Module 5 -->
+        <div style="padding:8px 12px;font-size:12px;color:var(--text-muted);cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+          <i data-lucide="chevron-right" style="width:12px;height:12px;"></i>
+          <i data-lucide="folder" style="width:14px;height:14px;"></i>
+          Module 5 — Clinical
+        </div>
+      </div>
+    </div>
+
+    <!-- Document Content Panel -->
+    <div style="background:var(--bg);padding:0;overflow-y:auto;max-height:calc(100vh - 160px);">
+      <!-- Section Header -->
+      <div style="padding:16px 24px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;font-weight:600;">Section 3.2.P.5</div>
+          <div style="font-size:16px;font-weight:700;color:var(--white);margin-top:2px;">Control of Drug Product</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-ghost btn-sm"><i data-lucide="file-text" class="sm"></i> View PDF</button>
+          <button class="btn btn-ghost btn-sm"><i data-lucide="code-xml" class="sm"></i> View XML</button>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div style="padding:32px;">
+        <!-- Metadata Card -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:28px;">
+          <div style="padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Format</div>
+            <div style="font-size:13px;color:var(--white);font-weight:600;">eCTD v4.0</div>
+          </div>
+          <div style="padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Sequence</div>
+            <div style="font-size:13px;color:var(--white);font-weight:600;">0001 (Initial)</div>
+          </div>
+          <div style="padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Documents</div>
+            <div style="font-size:13px;color:var(--white);font-weight:600;">14 files</div>
+          </div>
+          <div style="padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Classification</div>
+            <div style="font-size:13px;"><span class="tag tag-red"><i data-lucide="lock" class="sm"></i> CCI</span></div>
+          </div>
+        </div>
+
+        <!-- Section content -->
+        <div class="card">
+          <div class="card-title" style="margin-bottom:16px;">Section Documents</div>
+
+          <table class="tbl">
+            <thead>
+              <tr><th>Document</th><th>Type</th><th>Size</th><th>Operation</th><th></th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="file-text" style="width:14px;height:14px;color:#f87171;"></i>
+                    <strong>p5-specifications.pdf</strong>
+                  </div>
+                </td>
+                <td style="color:var(--text-muted);">PDF/A</td>
+                <td style="color:var(--text-muted);">2.4 MB</td>
+                <td><span class="tag tag-blue">New</span></td>
+                <td><button class="btn btn-ghost btn-sm" onclick="go('viewer')">View</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="file-text" style="width:14px;height:14px;color:#f87171;"></i>
+                    <strong>p5-analytical-procedures.pdf</strong>
+                  </div>
+                </td>
+                <td style="color:var(--text-muted);">PDF/A</td>
+                <td style="color:var(--text-muted);">3.8 MB</td>
+                <td><span class="tag tag-blue">New</span></td>
+                <td><button class="btn btn-ghost btn-sm" onclick="go('viewer')">View</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="file-text" style="width:14px;height:14px;color:#f87171;"></i>
+                    <strong>p5-validation-of-analytical.pdf</strong>
+                  </div>
+                </td>
+                <td style="color:var(--text-muted);">PDF/A</td>
+                <td style="color:var(--text-muted);">5.1 MB</td>
+                <td><span class="tag tag-blue">New</span></td>
+                <td><button class="btn btn-ghost btn-sm" onclick="go('viewer')">View</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="file-text" style="width:14px;height:14px;color:#f87171;"></i>
+                    <strong>p5-batch-analysis.pdf</strong>
+                  </div>
+                </td>
+                <td style="color:var(--text-muted);">PDF/A</td>
+                <td style="color:var(--text-muted);">1.9 MB</td>
+                <td><span class="tag tag-blue">New</span></td>
+                <td><button class="btn btn-ghost btn-sm" onclick="go('viewer')">View</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="file-text" style="width:14px;height:14px;color:#f87171;"></i>
+                    <strong>p5-characterisation-impurities.pdf</strong>
+                  </div>
+                </td>
+                <td style="color:var(--text-muted);">PDF/A</td>
+                <td style="color:var(--text-muted);">4.6 MB</td>
+                <td><span class="tag tag-blue">New</span></td>
+                <td><button class="btn btn-ghost btn-sm" onclick="go('viewer')">View</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- XML Preview -->
+        <div class="card" style="margin-top:16px;">
+          <div class="card-header">
+            <div class="card-title">XML Structure Preview</div>
+            <button class="btn btn-ghost btn-sm"><i data-lucide="copy" class="sm"></i> Copy</button>
+          </div>
+          <div style="background:#0d0f14;border-radius:8px;padding:20px;font-family:'JetBrains Mono','Fira Code',monospace;font-size:12px;line-height:1.7;overflow-x:auto;">
+            <div><span style="color:#6b7280;">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></div>
+            <div><span style="color:#7bb3ff;">&lt;ectd:ectd</span> <span style="color:#c4b5fd;">xmlns:ectd</span>=<span style="color:#4ade80;">"urn:ich:ectd:v4.0"</span><span style="color:#7bb3ff;">&gt;</span></div>
+            <div>&nbsp;&nbsp;<span style="color:#7bb3ff;">&lt;submission&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7bb3ff;">&lt;sequence-number&gt;</span><span style="color:var(--text);">0001</span><span style="color:#7bb3ff;">&lt;/sequence-number&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7bb3ff;">&lt;submission-type&gt;</span><span style="color:var(--text);">original-application</span><span style="color:#7bb3ff;">&lt;/submission-type&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7bb3ff;">&lt;m3-quality&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7bb3ff;">&lt;m32-body-data&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7bb3ff;">&lt;m32p-drug-product</span> <span style="color:#c4b5fd;">product-name</span>=<span style="color:#4ade80;">"PF-0724891"</span><span style="color:#7bb3ff;">&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7bb3ff;">&lt;m32p5-control</span> <span style="color:#c4b5fd;">modified</span>=<span style="color:#4ade80;">"new"</span><span style="color:#7bb3ff;">&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#fbbf24;">&lt;!-- 5 leaf documents --&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7bb3ff;">&lt;leaf</span> <span style="color:#c4b5fd;">ID</span>=<span style="color:#4ade80;">"p5-spec-001"</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c4b5fd;">xlink:href</span>=<span style="color:#4ade80;">"p5-specifications.pdf"</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c4b5fd;">operation</span>=<span style="color:#4ade80;">"new"</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c4b5fd;">checksum</span>=<span style="color:#4ade80;">"a3f8b2c1..."</span><span style="color:#7bb3ff;">/&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7bb3ff;">&lt;/m32p5-control&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7bb3ff;">&lt;/m32p-drug-product&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7bb3ff;">&lt;/m32-body-data&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7bb3ff;">&lt;/m3-quality&gt;</span></div>
+            <div>&nbsp;&nbsp;<span style="color:#7bb3ff;">&lt;/submission&gt;</span></div>
+            <div><span style="color:#7bb3ff;">&lt;/ectd:ectd&gt;</span></div>
+          </div>
+        </div>
+
+        <!-- Encryption notice -->
+        <div style="margin-top:16px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;gap:12px;">
+          <i data-lucide="shield-check" style="width:20px;height:20px;color:var(--accent);flex-shrink:0;"></i>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;">
+            This eCTD submission is <strong style="color:var(--white);">Tier 2 CCI-encrypted</strong>. Content is decrypted client-side in your browser. The platform has zero access to the decrypted data. Navigation and XML structure are read-only — the platform is not an eCTD authoring tool.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!--  DOCUMENT EDITOR (Collabora-style)        -->
+<!-- ════════════════════════════════════════════ -->
+<div class="screen" id="s-editor">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:var(--surface);border-bottom:1px solid var(--border);margin:-28px -32px 0;padding:12px 32px;">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <button class="btn btn-ghost btn-sm" onclick="go('docs')"><i data-lucide="arrow-left" class="sm"></i> Back</button>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--white);">Q12-Harmonisation-Case-Study-Draft.docx</div>
+        <div style="font-size:11px;color:var(--text-muted);">Work Product · Shared · Auto-saved 30s ago</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <!-- Collaborators -->
+      <div style="display:flex;align-items:center;">
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#4f8ff7,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;border:2px solid var(--bg);" title="Dr. J. Müller (Swissmedic)">JM</div>
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;border:2px solid var(--bg);margin-left:-8px;" title="Dr. K. Weber (EMA)">KW</div>
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#ef4444);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;border:2px solid var(--bg);margin-left:-8px;" title="Dr. A. Tanaka (PMDA)">AT</div>
+        <span style="font-size:11px;color:var(--accent);margin-left:8px;">● 3 editing</span>
+      </div>
+      <button class="btn btn-ghost btn-sm"><i data-lucide="message-square" class="sm"></i> Comments (4)</button>
+      <button class="btn btn-ghost btn-sm"><i data-lucide="history" class="sm"></i> Version History</button>
+      <button class="btn btn-ghost btn-sm"><i data-lucide="download" class="sm"></i> Export</button>
+    </div>
+  </div>
+
+  <!-- Editor Toolbar -->
+  <div style="display:flex;align-items:center;gap:4px;padding:8px 32px;background:var(--surface2);border-bottom:1px solid var(--border);margin:0 -32px;flex-wrap:wrap;">
+    <select style="padding:5px 8px;background:var(--surface3);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:12px;width:120px;">
+      <option>Normal Text</option><option>Heading 1</option><option>Heading 2</option><option>Heading 3</option>
+    </select>
+    <select style="padding:5px 8px;background:var(--surface3);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:12px;width:100px;">
+      <option>Inter</option><option>Arial</option><option>Times New Roman</option>
+    </select>
+    <select style="padding:5px 8px;background:var(--surface3);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:12px;width:52px;">
+      <option>11</option><option>12</option><option>14</option><option>16</option>
+    </select>
+    <div style="width:1px;height:22px;background:var(--border);margin:0 6px;"></div>
+    <button style="padding:4px 8px;background:none;border:1px solid transparent;border-radius:4px;color:var(--text);font-size:14px;font-weight:700;cursor:pointer;">B</button>
+    <button style="padding:4px 8px;background:none;border:1px solid transparent;border-radius:4px;color:var(--text);font-size:14px;font-style:italic;cursor:pointer;">I</button>
+    <button style="padding:4px 8px;background:none;border:1px solid transparent;border-radius:4px;color:var(--text);font-size:14px;text-decoration:underline;cursor:pointer;">U</button>
+    <button style="padding:4px 8px;background:none;border:1px solid transparent;border-radius:4px;color:var(--text);font-size:14px;text-decoration:line-through;cursor:pointer;">S</button>
+    <div style="width:1px;height:22px;background:var(--border);margin:0 6px;"></div>
+    <button style="padding:4px 8px;background:none;border:1px solid transparent;border-radius:4px;color:var(--text);font-size:12px;cursor:pointer;">≡ Left</button>
+    <button style="padding:4px 8px;background:none;border:1px solid transparent;border-radius:4px;color:var(--text);font-size:12px;cursor:pointer;">≡ Center</button>
+    <div style="width:1px;height:22px;background:var(--border);margin:0 6px;"></div>
+    <button style="padding:4px 8px;background:none;border:1px solid transparent;border-radius:4px;color:var(--text);font-size:12px;cursor:pointer;">• List</button>
+    <button style="padding:4px 8px;background:none;border:1px solid transparent;border-radius:4px;color:var(--text);font-size:12px;cursor:pointer;">1. Numbered</button>
+    <button style="padding:4px 8px;background:none;border:1px solid transparent;border-radius:4px;color:var(--text);font-size:12px;cursor:pointer;"><i data-lucide="table" class="sm"></i> Table</button>
+    <button style="padding:4px 8px;background:none;border:1px solid transparent;border-radius:4px;color:var(--text);font-size:12px;cursor:pointer;"><i data-lucide="image" class="sm"></i> Image</button>
+    <div style="width:1px;height:22px;background:var(--border);margin:0 6px;"></div>
+    <div style="display:flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:5px;font-size:11px;color:var(--warning);cursor:pointer;">
+      <i data-lucide="git-compare" class="sm"></i> Track Changes: ON
+    </div>
+  </div>
+
+  <!-- Editor Content -->
+  <div style="display:grid;grid-template-columns:1fr 280px;gap:0;margin:0 -32px;">
+    <!-- Document Canvas -->
+    <div style="background:#1a1d25;padding:40px;min-height:calc(100vh - 180px);display:flex;justify-content:center;">
+      <div style="background:#fff;color:#1a1a1a;width:680px;padding:56px 64px;border-radius:4px;box-shadow:0 4px 24px rgba(0,0,0,.5);font-family:Georgia,serif;position:relative;height:fit-content;">
+
+        <h1 style="font-size:22px;font-weight:700;color:#111;margin-bottom:8px;font-family:Inter,sans-serif;">ICH Q12 Harmonisation Case Study</h1>
+        <h2 style="font-size:14px;font-weight:400;color:#555;margin-bottom:24px;font-family:Inter,sans-serif;">Multi-Regional Assessment of Post-Approval Manufacturing Changes</h2>
+
+        <h3 style="font-size:14px;font-weight:600;color:#222;margin:20px 0 10px;font-family:Inter,sans-serif;">1. Introduction</h3>
+        <p style="font-size:12.5px;line-height:1.8;color:#333;margin-bottom:12px;">This case study examines the harmonisation of post-approval change management for a commercial oral solid dosage form, following the principles of ICH Q12. The objective is to demonstrate convergent regulatory interpretation across four participating authorities.</p>
+
+        <h3 style="font-size:14px;font-weight:600;color:#222;margin:20px 0 10px;font-family:Inter,sans-serif;">2. Regulatory Approach Comparison</h3>
+        <p style="font-size:12.5px;line-height:1.8;color:#333;margin-bottom:12px;">Each participating regulatory authority independently assessed the sponsor's proposed established conditions (ECs) and post-approval change management protocol (PACMP) using their existing frameworks.</p>
+
+        <!-- Live cursor from another user -->
+        <div style="position:relative;display:inline;">
+          <p style="font-size:12.5px;line-height:1.8;color:#333;margin-bottom:12px;">The assessments identified <span style="background:rgba(34,197,94,.15);border-left:2px solid #22c55e;padding:1px 2px;">broadly consistent conclusions regarding the classification of critical quality attributes and the acceptability of the proposed established conditions, with minor variations in</span><span style="display:inline-block;width:2px;height:16px;background:#22c55e;animation:blink 1s infinite;vertical-align:text-bottom;margin-left:1px;"></span></p>
+          <div style="position:absolute;top:-18px;left:280px;background:#22c55e;color:#fff;font-size:9px;padding:2px 6px;border-radius:3px;font-family:Inter,sans-serif;font-weight:600;white-space:nowrap;">Dr. K. Weber (EMA)</div>
+        </div>
+
+        <!-- Track change -->
+        <div style="margin:8px 0;padding:8px 12px;background:rgba(239,68,68,.05);border-left:3px solid #ef4444;border-radius:0 4px 4px 0;">
+          <span style="text-decoration:line-through;color:#999;font-size:12.5px;">preliminary</span>
+          <span style="color:#22c55e;font-size:12.5px;font-weight:500;"> initial</span>
+          <span style="font-size:10px;color:#888;margin-left:8px;font-family:Inter,sans-serif;">— Dr. A. Tanaka (PMDA) · 10 min ago</span>
+        </div>
+
+        <p style="font-size:12.5px;line-height:1.8;color:#333;margin-bottom:12px;">The results are summarised in the comparison table below and discussed in detail in Sections 3 through 6.</p>
+
+        <!-- Comment marker -->
+        <div style="position:absolute;right:-24px;top:340px;">
+          <div style="width:24px;height:24px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.3);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comments Sidebar -->
+    <div style="background:var(--surface);border-left:1px solid var(--border);padding:16px;overflow-y:auto;">
+      <div style="font-size:13px;font-weight:600;color:var(--white);margin-bottom:16px;">Comments (4)</div>
+
+      <div style="padding:12px;background:var(--surface2);border-radius:8px;margin-bottom:8px;border-left:3px solid var(--primary);">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-size:11px;font-weight:600;color:var(--primary);">Dr. J. Müller</span>
+          <span style="font-size:10px;color:var(--text-muted);">2h ago</span>
+        </div>
+        <p style="font-size:12px;color:var(--text);line-height:1.4;">Section 2 needs the EC comparison table. Can we add this before the next review cycle?</p>
+        <div style="margin-top:6px;font-size:11px;color:var(--accent);cursor:pointer;">Reply · Resolve</div>
+      </div>
+
+      <div style="padding:12px;background:var(--surface2);border-radius:8px;margin-bottom:8px;border-left:3px solid #22c55e;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-size:11px;font-weight:600;color:#22c55e;">Dr. K. Weber</span>
+          <span style="font-size:10px;color:var(--text-muted);">45m ago</span>
+        </div>
+        <p style="font-size:12px;color:var(--text);line-height:1.4;">Working on the comparison table now — will reference Table 3.1 from the stability assessment.</p>
+        <div style="margin-top:6px;font-size:11px;color:var(--accent);cursor:pointer;">Reply · Resolve</div>
+      </div>
+
+      <div style="padding:12px;background:var(--surface2);border-radius:8px;margin-bottom:8px;border-left:3px solid #f59e0b;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-size:11px;font-weight:600;color:#f59e0b;">Dr. A. Tanaka</span>
+          <span style="font-size:10px;color:var(--text-muted);">10m ago</span>
+        </div>
+        <p style="font-size:12px;color:var(--text);line-height:1.4;">Changed "preliminary" to "initial" in para 3 — more precise given the data is now 36-month final.</p>
+        <div style="margin-top:6px;font-size:11px;color:var(--text-muted);"><span style="color:var(--accent);">✓ Resolved</span> by Dr. J. Müller</div>
+      </div>
+
+      <div style="padding:12px;background:var(--surface2);border-radius:8px;margin-bottom:8px;border-left:3px solid var(--purple);">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-size:11px;font-weight:600;color:var(--purple);">Dr. R. Singh (FDA)</span>
+          <span style="font-size:10px;color:var(--text-muted);">Yesterday</span>
+        </div>
+        <p style="font-size:12px;color:var(--text);line-height:1.4;">Consider adding FDA's SUPAC framework reference in Section 2 for US-specific context.</p>
+        <div style="margin-top:6px;font-size:11px;color:var(--accent);cursor:pointer;">Reply · Resolve</div>
+      </div>
+
+      <!-- Add comment -->
+      <div style="margin-top:12px;">
+        <textarea style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:12px;font-family:Inter,sans-serif;resize:none;" rows="2" placeholder="Add a comment..."></textarea>
+        <button class="btn btn-primary btn-sm" style="margin-top:6px;">Post Comment</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+  </style>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!--  DISCUSSIONS                               -->
+<!-- ════════════════════════════════════════════ -->
+<div class="screen" id="s-discuss">
+  <div class="ph">
+    <div class="ph-bc"><a href="#" onclick="go('docs')">Q12 Post-Approval CMC</a> / Discussions</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div class="ph-title">Discussions</div>
+        <div class="ph-desc">Structured threads anchored to documents and workspace topics</div>
+      </div>
+      <button class="btn btn-primary"><i data-lucide="plus" class="sm"></i> New Thread</button>
+    </div>
+  </div>
+
+  <div class="layout-sb">
+    <div class="sb">
+      <div class="sb-section">Channels</div>
+      <div class="sb-item active"><i data-lucide="messages-square"></i> All Threads (3)</div>
+      <div class="sb-item"><i data-lucide="link"></i> Document-Linked (2)</div>
+      <div class="sb-item"><i data-lucide="pin"></i> Pinned (1)</div>
+      <div class="sb-section">Filter</div>
+      <div class="sb-item"><i data-lucide="circle-dot"></i> Active</div>
+      <div class="sb-item"><i data-lucide="check-circle-2"></i> Resolved</div>
+    </div>
+
+    <div>
+      <!-- Thread 1 -->
+      <div class="card" style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:14px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span class="tag tag-green" style="font-size:10px;">Active</span>
+              <span class="tag tag-blue" style="font-size:10px;"><i data-lucide="link" class="sm"></i> Linked: Stability-Data-Assessment.pdf</span>
+              <span class="tag tag-neutral" style="font-size:10px;"><i data-lucide="pin" class="sm"></i> Pinned</span>
+            </div>
+            <div style="font-size:15px;font-weight:600;color:var(--white);">36-month degradation trend — request for 48-month extrapolation</div>
+          </div>
+          <span style="font-size:11px;color:var(--text-muted);">6 replies</span>
+        </div>
+
+        <div style="padding:14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#4f8ff7,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;">JM</div>
+            <span style="font-size:12px;font-weight:600;color:var(--white);">Dr. J. Müller</span>
+            <span style="font-size:10px;color:var(--text-muted);">Swissmedic · 2 hours ago</span>
+          </div>
+          <p style="font-size:13px;color:var(--text);line-height:1.5;">The degradation profile shows 0.12% → 0.31% over 36 months. While within specification, the consistent upward trend warrants review of the 48-month extrapolation. @EMA and @PMDA — do your assessments align with this observation?</p>
+        </div>
+
+        <div style="padding:14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;margin-left:24px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;">KW</div>
+            <span style="font-size:12px;font-weight:600;color:var(--white);">Dr. K. Weber</span>
+            <span style="font-size:10px;color:var(--text-muted);">EMA · 45 min ago</span>
+          </div>
+          <p style="font-size:13px;color:var(--text);line-height:1.5;">Agreed. Our assessment noted the same trend. The slope extrapolation to 48 months should also consider the accelerated data (40°C/75% RH). I've added an annotation to the PDF on page 3.</p>
+        </div>
+
+        <div style="padding:14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;margin-left:24px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#ef4444);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;">AT</div>
+            <span style="font-size:12px;font-weight:600;color:var(--white);">Dr. A. Tanaka</span>
+            <span style="font-size:10px;color:var(--text-muted);">PMDA · 30 min ago</span>
+          </div>
+          <p style="font-size:13px;color:var(--text);line-height:1.5;">PMDA concurs. We would additionally request the statistical analysis (linear regression with 95% CI) for the assay and degradation trends.</p>
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:8px;">
+          <input class="fi" placeholder="Reply to this thread..." style="flex:1;">
+          <button class="btn btn-primary btn-sm">Reply</button>
+        </div>
+      </div>
+
+      <!-- Thread 2 -->
+      <div class="card" style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:14px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span class="tag tag-green" style="font-size:10px;">Active</span>
+              <span class="tag tag-blue" style="font-size:10px;"><i data-lucide="link" class="sm"></i> Linked: Case-Study-Draft.docx</span>
+            </div>
+            <div style="font-size:15px;font-weight:600;color:var(--white);">Case study Section 2 — comparison table structure</div>
+          </div>
+          <span style="font-size:11px;color:var(--text-muted);">3 replies</span>
+        </div>
+        <div style="padding:14px;background:var(--surface2);border-radius:8px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#4f8ff7,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;">JM</div>
+            <span style="font-size:12px;font-weight:600;color:var(--white);">Dr. J. Müller</span>
+            <span style="font-size:10px;color:var(--text-muted);">Swissmedic · Yesterday</span>
+          </div>
+          <p style="font-size:13px;color:var(--text);line-height:1.5;">Proposing a 4-column comparison table: EC Classification | Swissmedic | EMA | FDA | PMDA. Each row would cover one established condition with the assessment outcome. Does this format work for everyone?</p>
+        </div>
+      </div>
+
+      <!-- Thread 3 -->
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:14px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span class="tag tag-neutral" style="font-size:10px;"><i data-lucide="check-circle-2"></i> Resolved</span>
+            </div>
+            <div style="font-size:15px;font-weight:600;color:var(--text-secondary);">Workspace retention period — confirm 15 March 2027</div>
+          </div>
+          <span style="font-size:11px;color:var(--text-muted);">2 replies</span>
+        </div>
+        <div style="padding:14px;background:var(--surface2);border-radius:8px;">
+          <p style="font-size:13px;color:var(--text-secondary);line-height:1.5;">MC confirmed retention until 15 March 2027. All parties agreed. Thread resolved.</p>
+          <div style="margin-top:6px;font-size:11px;color:var(--accent);">✓ Resolved by ICH Admin · 20 Oct</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL ═══ -->
+<div class="modal-bg" id="modal">
+  <div class="modal" style="text-align:center;">
+    <div class="shield" style="border-color:rgba(34,197,94,.3);">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+    </div>
+    <h2 style="font-size:20px;font-weight:800;color:var(--white);margin-bottom:6px;">Encrypted & Uploaded</h2>
+    <p style="color:var(--text-secondary);font-size:13.5px;margin-bottom:24px;line-height:1.6;">
+      Document encrypted client-side with AES-256-GCM.<br>
+      <strong style="color:var(--white);">2 key envelopes</strong> created for Swissmedic and EMA.<br>
+      The platform has zero access to decrypted content.
+    </p>
+    <button class="btn btn-primary btn-lg" style="width:100%;" onclick="hideM();go('docs')">Done</button>
+  </div>
+</div>
+
+<script>
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); });
+  document.getElementById('s-'+id).classList.add('active');
+  const map = {dash:0,spaces:1,docs:2,upload:3,access:4,admin:5,discuss:6,viewer:2,editor:2,ectd:2};
+  document.querySelectorAll('.nav-pill').forEach((p,i) => {
+    p.classList.toggle('active', i===map[id]);
+  });
+  // Show/hide top bar on login
+  document.querySelector('.top-bar').style.display = id === 'login' ? 'none' : 'flex';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+// Hide top bar initially (login screen)
+document.querySelector('.top-bar').style.display = 'none';
+// Initialize Lucide icons
+if(typeof lucide!=='undefined') lucide.createIcons();
+// Re-init on screen change
+const _go = go;
+go = function(id) { _go(id); setTimeout(()=>{ if(typeof lucide!=='undefined') lucide.createIcons(); },50); };
+function fillDZ() {
+  const dz = document.getElementById('dz');
+  dz.classList.add('filled');
+  dz.innerHTML = '<div style="font-size:14px;color:var(--white);font-weight:600;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg>Phase3-CCI-Stability-Report.pdf</div><div style="font-size:12px;color:var(--accent);margin-top:6px;">8.4 MB · PDF/A · Ready for encryption</div>';
+}
+function showM() { document.getElementById('modal').classList.add('show'); }
+function hideM() { document.getElementById('modal').classList.remove('show'); }
+</script>
+</body>
+</html>
