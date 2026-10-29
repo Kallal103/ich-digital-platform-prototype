@@ -26,24 +26,40 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 [data-lucide]{width:16px;height:16px;stroke-width:1.8;vertical-align:middle;}
 .sm[data-lucide],[data-lucide].sm{width:14px;height:14px;}
 
-/* ─── Top Bar ─── */
-.topbar{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 24px;background:var(--ich-dark);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.15);}
-.logo{display:flex;align-items:center;gap:12px;}
-.logo img{height:36px;}
-.logo-text{color:#fff;font-size:13px;font-weight:500;opacity:.9;border-left:1px solid rgba(255,255,255,.2);padding-left:12px;}
-.nav-pills{display:flex;gap:1px;background:rgba(255,255,255,.08);border-radius:8px;padding:3px;}
-.np{padding:6px 13px;border-radius:6px;font-size:12px;font-weight:500;color:rgba(255,255,255,.6);cursor:pointer;border:none;background:none;transition:var(--transition);white-space:nowrap;font-family:inherit;}
-.np:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.08);}
-.np.on{color:#fff;background:var(--ich-blue);box-shadow:0 2px 6px rgba(51,145,207,.3);}
+/* ─── App Layout ─── */
+.app-layout{display:flex;min-height:100vh;}
+
+/* ─── Left Sidebar Nav ─── */
+.sidenav{width:230px;background:var(--ich-dark);position:fixed;top:0;left:0;bottom:0;z-index:100;display:flex;flex-direction:column;overflow-y:auto;}
+.sidenav .sn-logo{padding:16px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.08);}
+.sidenav .sn-logo img{height:32px;}
+.sidenav .sn-logo-text{color:#fff;font-size:12px;font-weight:500;opacity:.85;}
+.sn-section{font-size:9.5px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.3);padding:20px 18px 6px;font-weight:700;}
+.np{display:flex;align-items:center;gap:10px;padding:9px 18px;font-size:12.5px;font-weight:500;color:rgba(255,255,255,.55);cursor:pointer;border:none;background:none;transition:var(--transition);white-space:nowrap;font-family:inherit;width:100%;text-align:left;border-left:3px solid transparent;}
+.np:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.05);}
+.np.on{color:#fff;background:rgba(51,145,207,.15);border-left-color:var(--ich-blue);}
+.np [data-lucide]{width:17px;height:17px;opacity:.7;}
+.np.on [data-lucide]{opacity:1;}
+.sn-footer{margin-top:auto;padding:14px 18px;border-top:1px solid rgba(255,255,255,.08);}
+.sn-footer-item{display:flex;align-items:center;gap:8px;font-size:10.5px;color:rgba(255,255,255,.35);padding:3px 0;}
+
+/* ─── Top Bar (search + user) ─── */
+.topbar{display:flex;align-items:center;justify-content:space-between;height:54px;padding:0 28px;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:90;margin-left:230px;}
+.search-bar{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 14px;width:420px;transition:var(--transition);}
+.search-bar:focus-within{border-color:var(--ich-blue);background:var(--white);box-shadow:0 0 0 3px var(--ich-blue-glow);}
+.search-bar input{border:none;background:none;outline:none;font-size:13px;color:var(--text);width:100%;font-family:inherit;}
+.search-bar input::placeholder{color:var(--text-muted);}
+.search-bar [data-lucide]{color:var(--text-muted);width:16px;height:16px;flex-shrink:0;}
+.search-shortcut{font-size:10px;color:var(--text-muted);background:var(--white);border:1px solid var(--border);border-radius:4px;padding:1px 5px;flex-shrink:0;}
 .tr{display:flex;align-items:center;gap:10px;}
-.nbtn{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.08);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:var(--transition);}
-.nbtn:hover{background:rgba(255,255,255,.15);}
-.nbtn svg{color:rgba(255,255,255,.7);}
+.nbtn{width:34px;height:34px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:var(--transition);}
+.nbtn:hover{border-color:var(--ich-blue);background:var(--ich-blue-light);}
+.nbtn [data-lucide]{color:var(--text-secondary);}
 .ndot{position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:#ef4444;}
 .av{width:32px;height:32px;border-radius:8px;background:var(--ich-blue);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;}
 
 /* ─── Screens ─── */
-.scr{display:none;padding:28px 32px;max-width:1280px;margin:0 auto;opacity:0;transform:translateY(6px);}
+.scr{display:none;padding:28px 32px;max-width:1280px;margin:0 auto;margin-left:230px;opacity:0;transform:translateY(6px);}
 .scr.on{display:block;animation:fi .3s ease forwards;}
 @keyframes fi{to{opacity:1;transform:translateY(0);}}
 
@@ -212,24 +228,43 @@ textarea.fi{resize:vertical;}
 </head>
 <body>
 
-<!-- ═══ TOP BAR ═══ -->
-<div class="topbar" id="topbar">
-  <div class="logo">
-    <img src="https://ich.org/assets/images/ich-logo.png?v=2" alt="ICH" onerror="this.style.display='none'">
-    <span class="logo-text">Digital Platform</span>
+<!-- ═══ LEFT SIDEBAR NAV ═══ -->
+<nav class="sidenav" id="sidenav">
+  <div class="sn-logo">
+    <img src="https://ich.org/assets/images/ich-logo.png?v=2" alt="ICH" style="height:32px;" onerror="this.outerHTML='<div style=width:32px;height:32px;border-radius:8px;background:var(--ich-blue);display:flex;align-items:center;justify-content:center;><i data-lucide=shield-check style=width:18px;height:18px;color:#fff;></i></div>'">
+    <span class="sn-logo-text">Digital Platform</span>
   </div>
-  <div class="nav-pills">
-    <button class="np on" onclick="go('dash')">Dashboard</button>
-    <button class="np" onclick="go('spaces')">Workspaces</button>
-    <button class="np" onclick="go('docs')">Documents</button>
-    <button class="np" onclick="go('upload')">Upload</button>
-    <button class="np" onclick="go('access')">Access Control</button>
-    <button class="np" onclick="go('admin')">Administration</button>
-    <button class="np" onclick="go('discuss')">Discussions</button>
+  <div class="sn-section">Main</div>
+  <button class="np on" onclick="go('dash')"><i data-lucide="layout-dashboard"></i> Dashboard</button>
+  <button class="np" onclick="go('spaces')"><i data-lucide="folder-kanban"></i> Workspaces</button>
+  <button class="np" onclick="go('docs')"><i data-lucide="files"></i> Documents</button>
+  <button class="np" onclick="go('discuss')"><i data-lucide="messages-square"></i> Discussions</button>
+  <div class="sn-section">Actions</div>
+  <button class="np" onclick="go('upload')"><i data-lucide="upload-cloud"></i> Upload Document</button>
+  <button class="np" onclick="go('access')"><i data-lucide="shield-check"></i> Access Control</button>
+  <div class="sn-section">System</div>
+  <button class="np" onclick="go('admin')"><i data-lucide="settings"></i> Administration</button>
+  <div class="sn-footer">
+    <div class="sn-footer-item"><i data-lucide="map-pin" style="width:12px;height:12px;"></i> Hosted in Switzerland</div>
+    <div class="sn-footer-item"><i data-lucide="shield" style="width:12px;height:12px;"></i> ISO 27001:2022</div>
+    <div class="sn-footer-item"><i data-lucide="lock" style="width:12px;height:12px;"></i> End-to-end encrypted</div>
+  </div>
+</nav>
+
+<!-- ═══ TOP BAR (search + user) ═══ -->
+<div class="topbar" id="topbar">
+  <div class="search-bar">
+    <i data-lucide="search"></i>
+    <input type="text" placeholder="Search documents, workspaces, users...">
+    <span class="search-shortcut">⌘K</span>
   </div>
   <div class="tr">
     <div class="nbtn"><i data-lucide="bell"></i><div class="ndot"></div></div>
-    <div class="av">JM</div>
+    <div class="nbtn"><i data-lucide="help-circle"></i></div>
+    <div style="display:flex;align-items:center;gap:8px;padding-left:8px;border-left:1px solid var(--border);margin-left:4px;">
+      <div class="av">JM</div>
+      <div style="font-size:12px;"><div style="font-weight:600;color:var(--heading);">Dr. J. Müller</div><div style="font-size:10px;color:var(--text-muted);">Swissmedic</div></div>
+    </div>
   </div>
 </div>
 
@@ -562,13 +597,22 @@ textarea.fi{resize:vertical;}
 function go(id){
   document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
   document.getElementById('s-'+id).classList.add('on');
-  const m={dash:0,spaces:1,docs:2,upload:3,access:4,admin:5,discuss:6,viewer:2,editor:2,ectd:2};
-  document.querySelectorAll('.np').forEach((p,i)=>p.classList.toggle('on',i===m[id]));
-  document.getElementById('topbar').style.display=id==='login'?'none':'flex';
+  // Map screens to sidebar nav index
+  const m={dash:0,spaces:1,docs:2,discuss:3,upload:4,access:5,admin:6,viewer:2,editor:2,ectd:2};
+  document.querySelectorAll('.sidenav .np').forEach((p,i)=>p.classList.toggle('on',i===m[id]));
+  // Show/hide sidebar and topbar on login
+  const isLogin = id==='login';
+  document.getElementById('topbar').style.display=isLogin?'none':'flex';
+  document.getElementById('sidenav').style.display=isLogin?'none':'flex';
+  // Adjust screen margin when sidebar is hidden
+  document.querySelectorAll('.scr').forEach(s=>{s.style.marginLeft=isLogin?'0':'230px';});
   window.scrollTo({top:0,behavior:'smooth'});
   setTimeout(()=>{if(typeof lucide!=='undefined')lucide.createIcons();},50);
 }
+// Hide sidebar and topbar initially (login screen)
 document.getElementById('topbar').style.display='none';
+document.getElementById('sidenav').style.display='none';
+document.querySelectorAll('.scr').forEach(s=>{s.style.marginLeft='0';});
 if(typeof lucide!=='undefined')lucide.createIcons();
 function fillDZ(){const d=document.getElementById('dz');d.classList.add('ok');d.innerHTML='<div style="font-size:13px;color:var(--heading);font-weight:600;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;color:var(--accent);"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg>Phase3-CCI-Stability-Report.pdf</div><div style="font-size:11px;color:var(--accent);margin-top:4px;">8.4 MB · PDF/A · Ready for encryption</div>';}
 function showM(){document.getElementById('modal').classList.add('show');}
