@@ -220,6 +220,12 @@ textarea.fi{resize:vertical;}
 .fbar{display:flex;align-items:center;justify-content:center;gap:20px;padding:20px;font-size:11px;color:var(--text-muted);border-top:1px solid var(--border);margin-top:40px;}
 .fbar span{display:flex;align-items:center;gap:5px;}
 
+
+/* ─── Toast ─── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--ich-dark);color:#fff;padding:14px 20px;border-radius:10px;font-size:13px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);z-index:300;transform:translateY(80px);opacity:0;transition:all .3s ease;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast [data-lucide]{width:18px;height:18px;flex-shrink:0;}
+
 /* ─── Responsive ─── */
 @media(max-width:1024px){.g3{grid-template-columns:1fr 1fr;}.g4{grid-template-columns:1fr 1fr;}.lsb{grid-template-columns:1fr;}.sb{position:static;}}
 @media(max-width:768px){.g2,.g3,.g4{grid-template-columns:1fr;}.nav-pills{display:none;}.scr{padding:16px;}}
@@ -327,13 +333,52 @@ textarea.fi{resize:vertical;}
       </div>
     </div>
   </div>
+  <!-- DLP & PAM -->
+  <div class="g2" style="margin-top:20px;">
+    <div class="card"><div class="ch"><div class="ct"><i data-lucide="shield-alert" class="sm" style="color:var(--warning);"></i> DLP Controls</div></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="ban" style="color:var(--accent);"></i> Screenshot prevention</span><span class="tag tag-g">Active</span></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="download" style="color:var(--ich-blue);"></i> Download restrictions (CCI)</span><span class="tag tag-g">Enforced</span></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="printer" style="color:var(--ich-blue);"></i> Print disabled for CCI</span><span class="tag tag-g">Active</span></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="clipboard" style="color:var(--ich-blue);"></i> Copy/paste blocked for CCI</span><span class="tag tag-g">Active</span></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="mail" style="color:var(--ich-blue);"></i> Email forwarding restricted</span><span class="tag tag-g">Active</span></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="globe" style="color:var(--ich-blue);"></i> Domain-restricted embedding</span><span class="tag tag-g">Active</span></div>
+      <div style="margin-top:10px;padding:10px;background:var(--surface2);border-radius:7px;font-size:11px;color:var(--text-secondary);">DLP violations (30d): <strong style="color:var(--accent);">0</strong> · Last policy update: 28 Oct 2026</div>
+    </div>
+    <div class="card"><div class="ch"><div class="ct"><i data-lucide="user-cog" class="sm" style="color:var(--purple);"></i> PAM Controls</div></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="monitor" style="color:var(--purple);"></i> Admin session recording</span><span class="tag tag-g">Active</span></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="clock" style="color:var(--ich-blue);"></i> Session timeout (15 min)</span><span class="tag tag-g">Enforced</span></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="lock" style="color:var(--ich-blue);"></i> CCI access blocked for admins</span><span class="tag tag-g">Enforced</span></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="users" style="color:var(--ich-blue);"></i> Least-privilege enforcement</span><span class="tag tag-g">Active</span></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="key-round" style="color:var(--ich-blue);"></i> Just-in-time access</span><span class="tag tag-g">Active</span></div>
+      <div style="margin-top:10px;padding:10px;background:var(--surface2);border-radius:7px;font-size:11px;color:var(--text-secondary);">Privileged sessions (30d): <strong>23</strong> · All recorded · 0 policy violations</div>
+    </div>
+  </div>
+
+  <!-- Incident Response -->
+  <div class="card" style="margin-top:20px;">
+    <div class="ch"><div class="ct"><i data-lucide="siren" class="sm" style="color:var(--danger);"></i> Incident Response</div><button class="btn btn-d btn-sm"><i data-lucide="alert-triangle" class="sm"></i> Report Incident</button></div>
+    <div class="g3" style="margin-bottom:16px;">
+      <div style="padding:14px;background:var(--accent-light);border-radius:8px;border-left:3px solid var(--accent);"><div style="font-size:24px;font-weight:800;color:var(--accent);">0</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Active Incidents</div></div>
+      <div style="padding:14px;background:var(--surface2);border-radius:8px;"><div style="font-size:24px;font-weight:800;color:var(--heading);">0</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Incidents (90d)</div></div>
+      <div style="padding:14px;background:var(--surface2);border-radius:8px;"><div style="font-size:24px;font-weight:800;color:var(--heading);">< 1h</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Target Response Time</div></div>
+    </div>
+    <div class="ct" style="margin-bottom:10px;font-size:13px;">Response Procedures</div>
+    <div class="secr"><span style="font-size:12px;"><i data-lucide="zap" style="color:var(--danger);"></i> Severity 1 — Platform compromise</span><span style="font-size:11px;color:var(--text-muted);">Notify ICH + all controllers within 1 hour</span></div>
+    <div class="secr"><span style="font-size:12px;"><i data-lucide="alert-triangle" style="color:var(--warning);"></i> Severity 2 — Data breach suspected</span><span style="font-size:11px;color:var(--text-muted);">Notify ICH within 4 hours · Isolate affected workspace</span></div>
+    <div class="secr"><span style="font-size:12px;"><i data-lucide="info" style="color:var(--ich-blue);"></i> Severity 3 — Policy violation</span><span style="font-size:11px;color:var(--text-muted);">Log and investigate within 24 hours</span></div>
+    <div style="margin-top:12px;padding:12px;background:var(--surface2);border-radius:8px;font-size:11.5px;color:var(--text-secondary);line-height:1.5;">
+      <strong style="color:var(--heading);">Breach notification chain:</strong> Security team → ICH Management Committee → Affected data controllers → Regulatory authorities (if applicable under GDPR Art. 33/34, FADP).<br>
+      <strong style="color:var(--heading);">Crypto-shredding option:</strong> Emergency key destruction available for compromised workspaces — renders all content permanently unreadable.
+    </div>
+  </div>
+
   <div class="fbar"><span><i data-lucide="map-pin" class="sm"></i> Switzerland</span><span><i data-lucide="badge-check" class="sm"></i> ISO 27001:2022</span><span><i data-lucide="cloud" class="sm"></i> Infomaniak</span><span><i data-lucide="shield" class="sm"></i> Securosys HSM</span></div>
 </div>
 
 <!-- ═══ WORKSPACES ═══ -->
 <div class="scr" id="s-spaces">
   <div class="ph"><div class="pt">Collaboration Workspaces</div><div class="pd">Temporary, project-specific spaces with defined lifecycles</div></div>
-  <div style="display:flex;gap:8px;margin-bottom:20px;"><input class="fi" placeholder="Search workspaces..." style="max-width:300px;"><select class="fi" style="width:150px;"><option>All Statuses</option></select><button class="btn btn-p">+ New Workspace</button></div>
+  <div style="display:flex;gap:8px;margin-bottom:20px;"><input class="fi" placeholder="Search workspaces..." style="max-width:300px;"><select class="fi" style="width:150px;"><option>All Statuses</option></select><button class="btn btn-p" onclick="showWS()">+ New Workspace</button></div>
   <div class="g3">
     <div class="wsc a" onclick="go('docs')"><div style="display:flex;justify-content:space-between;margin-bottom:12px;"><span class="tag tag-g">Active</span><span style="font-size:11px;color:var(--text-muted);">Expires 15 Mar 2027</span></div><h3 style="font-size:15px;font-weight:700;color:var(--heading);margin-bottom:4px;">ICH Q12 Post-Approval CMC</h3><p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px;">Lifecycle management — multi-regional assessment</p><div style="display:flex;gap:12px;font-size:11px;color:var(--text-muted);margin-bottom:12px;"><span><i data-lucide="file-text" class="sm"></i> 12 docs</span><span><i data-lucide="users" class="sm"></i> 8</span><span><i data-lucide="lock" class="sm"></i> 4 CCI</span></div><div style="display:flex;gap:3px;flex-wrap:wrap;"><span class="tag tag-b">Swissmedic</span><span class="tag tag-b">EMA</span><span class="tag tag-b">FDA</span><span class="tag tag-b">PMDA</span></div></div>
     <div class="wsc a"><div style="display:flex;justify-content:space-between;margin-bottom:12px;"><span class="tag tag-g">Active</span><span style="font-size:11px;color:var(--text-muted);">Expires 30 Jun 2027</span></div><h3 style="font-size:15px;font-weight:700;color:var(--heading);margin-bottom:4px;">ICH M11 CeSHarP Pilot</h3><p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px;">Clinical Electronic Structured Harmonised Protocol</p><div style="display:flex;gap:12px;font-size:11px;color:var(--text-muted);margin-bottom:12px;"><span><i data-lucide="file-text" class="sm"></i> 8 docs</span><span><i data-lucide="users" class="sm"></i> 5</span><span><i data-lucide="lock" class="sm"></i> 2 CCI</span></div><div style="display:flex;gap:3px;"><span class="tag tag-b">FDA</span><span class="tag tag-b">EMA</span><span class="tag tag-b">PMDA</span></div></div>
@@ -379,6 +424,14 @@ textarea.fi{resize:vertical;}
         <label class="ckr"><input type="checkbox"><span style="flex:1;font-size:12.5px;">PMDA (Japan)</span><span class="tag tag-g" style="font-size:10px;">✓ Verified</span></label>
         <label class="ckr"><input type="checkbox"><span style="flex:1;font-size:12.5px;">Health Canada</span><span class="tag tag-g" style="font-size:10px;">✓ Verified</span></label>
         <div style="margin-top:14px;padding:12px;background:var(--surface2);border-radius:8px;font-size:11px;color:var(--text-secondary);line-height:1.5;">Each authority gets a unique encrypted envelope (HPKE). Revoking deletes the envelope — no re-encryption.</div>
+      </div>
+      <div class="card" style="margin-top:14px;">
+        <div class="ct" style="margin-bottom:12px;"><i data-lucide="scan-line" class="sm" style="color:var(--ich-blue);"></i> Upload Pipeline</div>
+        <div class="step" style="border-left:3px solid var(--accent);"><div class="sn done">✓</div><div><div style="font-size:12.5px;color:var(--heading);">File selected</div><div style="font-size:10.5px;color:var(--text-muted);">Format validated · Size checked</div></div></div>
+        <div class="step" style="border-left:3px solid var(--accent);"><div class="sn done">✓</div><div><div style="font-size:12.5px;color:var(--heading);"><i data-lucide="scan-search" class="sm" style="color:var(--accent);"></i> Virus scan passed</div><div style="font-size:10.5px;color:var(--text-muted);">ClamAV · No threats detected</div></div></div>
+        <div class="step" style="border-left:3px solid var(--accent);"><div class="sn done">✓</div><div><div style="font-size:12.5px;color:var(--heading);"><i data-lucide="shield-check" class="sm" style="color:var(--accent);"></i> DLP check passed</div><div style="font-size:10.5px;color:var(--text-muted);">No sensitive data policy violations</div></div></div>
+        <div class="step" style="border-left:3px solid var(--ich-blue);"><div class="sn now">4</div><div><div style="font-size:12.5px;font-weight:600;color:var(--heading);">Client-side encryption</div><div style="font-size:10.5px;color:var(--text-muted);">Envelope encryption with your KEK</div></div></div>
+        <div class="step"><div class="sn wait">5</div><div><div style="font-size:12.5px;color:var(--text-muted);">Upload encrypted payload</div></div></div>
       </div>
       <div style="display:flex;gap:6px;margin-top:14px;"><button class="btn btn-p btn-lg" style="flex:1;" onclick="showM()"><i data-lucide="lock" class="sm"></i> Encrypt & Upload</button><button class="btn btn-o btn-lg" onclick="go('docs')">Cancel</button></div>
     </div>
@@ -918,6 +971,73 @@ if(typeof lucide!=='undefined')lucide.createIcons();
 function fillDZ(){const d=document.getElementById('dz');d.classList.add('ok');d.innerHTML='<div style="font-size:13px;color:var(--heading);font-weight:600;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;color:var(--accent);"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg>Phase3-CCI-Stability-Report.pdf</div><div style="font-size:11px;color:var(--accent);margin-top:4px;">8.4 MB · PDF/A · Ready for encryption</div>';}
 function showM(){document.getElementById('modal').classList.add('show');}
 function hideM(){document.getElementById('modal').classList.remove('show');}
+
+// Workspace creation modal
+function showWS(){document.getElementById('ws-modal').classList.add('show');}
+function hideWS(){document.getElementById('ws-modal').classList.remove('show');}
+
+// Toast notification
+function toast(msg,icon){
+  let t=document.getElementById('toast');
+  if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t);}
+  t.innerHTML='<i data-lucide="'+(icon||'check-circle-2')+'" style="color:var(--accent);"></i>'+msg;
+  t.classList.add('show');
+  if(typeof lucide!=='undefined')lucide.createIcons();
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// Terms checkbox gating
+document.querySelectorAll('#tc1,#tc2,#tc3').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const all=document.getElementById('tc1').checked&&document.getElementById('tc2').checked&&document.getElementById('tc3').checked;
+    const btn=cb.closest('.card').querySelector('.btn-p');
+    if(btn){btn.style.opacity=all?'1':'.4';btn.style.pointerEvents=all?'auto':'none';}
+  });
+});
+// Disable accept button initially
+setTimeout(()=>{
+  const termsBtn=document.querySelector('#s-terms .btn-p');
+  if(termsBtn){termsBtn.style.opacity='.4';termsBtn.style.pointerEvents='none';}
+},100);
+
+// Profile save
+document.querySelectorAll('.btn-p').forEach(b=>{
+  if(b.textContent.includes('Save Changes')){
+    b.addEventListener('click',()=>toast('Profile updated successfully'));
+  }
+});
+
+// Export buttons
+document.querySelectorAll('.btn-p,.btn-o').forEach(b=>{
+  if(b.textContent.includes('Export')){
+    b.addEventListener('click',e=>{e.stopPropagation();toast('Export started — downloading...','download');});
+  }
+});
 </script>
+
+<!-- Workspace Creation Modal -->
+<div class="mbg" id="ws-modal"><div class="mdl" style="max-width:520px;">
+  <h2 style="font-size:18px;font-weight:800;color:var(--heading);margin-bottom:4px;">Create New Workspace</h2>
+  <p style="color:var(--text-secondary);font-size:13px;margin-bottom:20px;">Set up a temporary collaboration space for a harmonisation effort</p>
+  <div class="fg"><label class="fl">Workspace Name</label><input class="fi" placeholder="e.g., ICH Q12 Post-Approval CMC"></div>
+  <div class="fg"><label class="fl">Description</label><textarea class="fi" rows="2" placeholder="Purpose and scope of this collaboration..."></textarea></div>
+  <div class="fg"><label class="fl">Guideline / Topic</label><select class="fi"><option>Quality (Q)</option><option>Safety (S)</option><option>Efficacy (E)</option><option>Multidisciplinary (M)</option></select></div>
+  <div class="fg"><label class="fl">Retention Period</label><select class="fi"><option>6 months</option><option>12 months</option><option>18 months</option><option>24 months</option><option>Custom (MC approval required)</option></select></div>
+  <div class="fg"><label class="fl">Initial Participants</label>
+    <label class="ckr"><input type="checkbox" checked><span style="flex:1;font-size:12px;">Swissmedic</span></label>
+    <label class="ckr"><input type="checkbox" checked><span style="flex:1;font-size:12px;">EMA</span></label>
+    <label class="ckr"><input type="checkbox"><span style="flex:1;font-size:12px;">FDA</span></label>
+    <label class="ckr"><input type="checkbox"><span style="flex:1;font-size:12px;">PMDA</span></label>
+    <label class="ckr"><input type="checkbox"><span style="flex:1;font-size:12px;">Health Canada</span></label>
+  </div>
+  <div class="fg"><label class="fl">Download Control</label>
+    <label class="ckr"><input type="checkbox" checked><span style="flex:1;font-size:12px;">Allow document downloads</span></label>
+    <label class="ckr"><input type="checkbox"><span style="flex:1;font-size:12px;">Disable downloads for CCI documents</span></label>
+  </div>
+  <div style="display:flex;gap:8px;margin-top:20px;">
+    <button class="btn btn-p btn-lg" style="flex:1;" onclick="hideWS();toast('Workspace created successfully','folder-plus');go('spaces')"><i data-lucide="plus" class="sm"></i> Create Workspace</button>
+    <button class="btn btn-o btn-lg" onclick="hideWS()">Cancel</button>
+  </div>
+</div></div>
 </body>
 </html>
