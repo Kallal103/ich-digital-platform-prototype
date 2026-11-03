@@ -239,11 +239,15 @@ textarea.fi{resize:vertical;}
   <button class="np" onclick="go('spaces')"><i data-lucide="folder-kanban"></i> Workspaces</button>
   <button class="np" onclick="go('docs')"><i data-lucide="files"></i> Documents</button>
   <button class="np" onclick="go('discuss')"><i data-lucide="messages-square"></i> Discussions</button>
+  <button class="np" onclick="go('milestones')"><i data-lucide="milestone"></i> Milestones</button>
+  <button class="np" onclick="go('notif')"><i data-lucide="bell"></i> Notifications <span class="tag tag-r" style="font-size:9px;padding:1px 5px;margin-left:auto;">3</span></button>
   <div class="sn-section">Actions</div>
   <button class="np" onclick="go('upload')"><i data-lucide="upload-cloud"></i> Upload Document</button>
   <button class="np" onclick="go('access')"><i data-lucide="shield-check"></i> Access Control</button>
   <div class="sn-section">System</div>
   <button class="np" onclick="go('admin')"><i data-lucide="settings"></i> Administration</button>
+  <button class="np" onclick="go('reports')"><i data-lucide="bar-chart-3"></i> Reports & Analytics</button>
+  <button class="np" onclick="go('profile')"><i data-lucide="user-circle"></i> My Profile</button>
   <div class="sn-footer">
     <div class="sn-footer-item"><i data-lucide="map-pin" style="width:12px;height:12px;"></i> Hosted in Switzerland</div>
     <div class="sn-footer-item"><i data-lucide="shield" style="width:12px;height:12px;"></i> ISO 27001:2022</div>
@@ -253,13 +257,13 @@ textarea.fi{resize:vertical;}
 
 <!-- ═══ TOP BAR (search + user) ═══ -->
 <div class="topbar" id="topbar">
-  <div class="search-bar">
+  <div class="search-bar" onclick="go('search')" style="cursor:pointer;">
     <i data-lucide="search"></i>
-    <input type="text" placeholder="Search documents, workspaces, users...">
+    <input type="text" placeholder="Search documents, workspaces, users..." style="cursor:pointer;">
     <span class="search-shortcut">⌘K</span>
   </div>
   <div class="tr">
-    <div class="nbtn"><i data-lucide="bell"></i><div class="ndot"></div></div>
+    <div class="nbtn" onclick="go('notif')" style="cursor:pointer;"><i data-lucide="bell"></i><div class="ndot"></div></div>
     <div class="nbtn"><i data-lucide="help-circle"></i></div>
     <div style="display:flex;align-items:center;gap:8px;padding-left:8px;border-left:1px solid var(--border);margin-left:4px;">
       <div class="av">JM</div>
@@ -585,6 +589,303 @@ textarea.fi{resize:vertical;}
   </div>
 </div>
 
+<!-- ═══ SEARCH RESULTS ═══ -->
+<div class="scr" id="s-search">
+  <div class="ph"><div class="pt">Search Results</div><div class="pd">Showing results for "<strong style="color:var(--ich-blue);">stability data assessment</strong>" across authorised workspaces</div></div>
+  <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
+    <div class="search-bar" style="width:480px;"><i data-lucide="search"></i><input value="stability data assessment"><span class="search-shortcut">⌘K</span></div>
+    <select class="fi" style="width:140px;"><option>All Workspaces</option><option>Q12 CMC</option><option>M11 CeSHarP</option></select>
+    <select class="fi" style="width:130px;"><option>All Types</option><option>CCI</option><option>Regulatory</option><option>Work Product</option></select>
+    <select class="fi" style="width:120px;"><option>Any Date</option><option>Last 7 days</option><option>Last 30 days</option></select>
+  </div>
+  <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">4 results found · Search respects your access permissions — only content you are authorised to view is shown</div>
+  <div class="card" style="margin-bottom:10px;cursor:pointer;" onclick="go('viewer')">
+    <div style="display:flex;align-items:start;gap:14px;">
+      <div class="fic pdf" style="flex-shrink:0;"><i data-lucide="file-text" style="color:var(--danger);"></i></div>
+      <div style="flex:1;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span class="fin">Stability-Data-<mark style="background:var(--ich-blue-light);color:var(--ich-blue);padding:1px 3px;border-radius:2px;">Assessment</mark>-Q12-2026.pdf</span><span class="tag tag-r"><i data-lucide="lock" class="sm"></i> CCI</span></div>
+        <div class="fme">PDF/A · 4.2 MB · Q12 Post-Approval CMC · EMA · 24 Oct 2026 · v3</div>
+        <p style="font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.5;">...the 36-month <mark style="background:var(--ich-blue-light);color:var(--ich-blue);padding:1px 3px;border-radius:2px;">stability data</mark> for the proposed commercial formulation demonstrate consistent quality attributes within the established specification limits...</p>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:10px;cursor:pointer;">
+    <div style="display:flex;align-items:start;gap:14px;">
+      <div class="fic pdf" style="flex-shrink:0;"><i data-lucide="file-text" style="color:var(--danger);"></i></div>
+      <div style="flex:1;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span class="fin">Swissmedic-<mark style="background:var(--ich-blue-light);color:var(--ich-blue);padding:1px 3px;border-radius:2px;">Assessment</mark>-Report-v2.pdf</span><span class="tag tag-b">Regulatory</span></div>
+        <div class="fme">PDF/A · 2.1 MB · Q12 Post-Approval CMC · Swissmedic · 20 Oct 2026</div>
+        <p style="font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.5;">...review of the <mark style="background:var(--ich-blue-light);color:var(--ich-blue);padding:1px 3px;border-radius:2px;">stability</mark> programme and the proposed shelf-life specification based on the available <mark style="background:var(--ich-blue-light);color:var(--ich-blue);padding:1px 3px;border-radius:2px;">data</mark>...</p>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:10px;cursor:pointer;">
+    <div style="display:flex;align-items:start;gap:14px;">
+      <div class="fic doc" style="flex-shrink:0;"><i data-lucide="file-pen" style="color:var(--accent);"></i></div>
+      <div style="flex:1;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span class="fin">Q12-Harmonisation-Case-Study-Draft.docx</span><span class="tag tag-g">Work Product</span></div>
+        <div class="fme">DOCX · 890 KB · Q12 Post-Approval CMC · Shared · 22 Oct 2026</div>
+        <p style="font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.5;">...the <mark style="background:var(--ich-blue-light);color:var(--ich-blue);padding:1px 3px;border-radius:2px;">stability data assessment</mark> confirms that the proposed established conditions are supported by the 36-month results...</p>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="cursor:pointer;">
+    <div style="display:flex;align-items:start;gap:14px;">
+      <div class="fic" style="background:var(--ich-blue-light);flex-shrink:0;"><i data-lucide="message-square" style="color:var(--ich-blue);"></i></div>
+      <div style="flex:1;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span class="fin">Discussion: 36-month degradation trend</span><span class="tag tag-n">Discussion</span></div>
+        <div class="fme">Q12 Post-Approval CMC · 6 replies · Active</div>
+        <p style="font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.5;">...the <mark style="background:var(--ich-blue-light);color:var(--ich-blue);padding:1px 3px;border-radius:2px;">stability data</mark> degradation profile 0.12→0.31% warrants review of the 48-month extrapolation...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NOTIFICATIONS ═══ -->
+<div class="scr" id="s-notif">
+  <div class="ph"><div class="pt">Notifications</div><div class="pd">Activity alerts and updates across your workspaces</div></div>
+  <div style="display:flex;gap:8px;margin-bottom:20px;">
+    <button class="btn btn-p btn-sm">All</button>
+    <button class="btn btn-o btn-sm">Unread (3)</button>
+    <button class="btn btn-o btn-sm">Documents</button>
+    <button class="btn btn-o btn-sm">Access</button>
+    <button class="btn btn-o btn-sm">System</button>
+    <div style="margin-left:auto;"><button class="btn btn-o btn-sm">Mark all read</button></div>
+  </div>
+  <div class="card" style="margin-bottom:6px;border-left:3px solid var(--ich-blue);background:var(--ich-blue-light);">
+    <div style="display:flex;gap:14px;align-items:start;">
+      <div style="width:36px;height:36px;border-radius:8px;background:var(--ich-blue-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-lucide="upload-cloud" style="color:var(--ich-blue);width:18px;height:18px;"></i></div>
+      <div style="flex:1;"><div style="font-size:13px;color:var(--heading);"><strong>Dr. Tanaka (PMDA)</strong> uploaded a new document</div><div style="font-size:12px;color:var(--text-secondary);margin-top:2px;">PMDA-Assessment-M11.pdf was added to <strong>M11 CeSHarP Pilot</strong></div><div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Today, 13:15 CET</div></div>
+      <span class="tag tag-b" style="flex-shrink:0;">New</span>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:6px;border-left:3px solid var(--accent);background:var(--accent-light);">
+    <div style="display:flex;gap:14px;align-items:start;">
+      <div style="width:36px;height:36px;border-radius:8px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-lucide="shield-check" style="color:var(--accent);width:18px;height:18px;"></i></div>
+      <div style="flex:1;"><div style="font-size:13px;color:var(--heading);"><strong>Pfizer Inc.</strong> granted you CCI access</div><div style="font-size:12px;color:var(--text-secondary);margin-top:2px;">Stability-Data-Assessment.pdf in <strong>Q12 Post-Approval CMC</strong></div><div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Today, 14:32 CET</div></div>
+      <span class="tag tag-b" style="flex-shrink:0;">New</span>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:6px;border-left:3px solid var(--warning);background:var(--warning-light);">
+    <div style="display:flex;gap:14px;align-items:start;">
+      <div style="width:36px;height:36px;border-radius:8px;background:var(--warning-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-lucide="message-square" style="color:var(--warning);width:18px;height:18px;"></i></div>
+      <div style="flex:1;"><div style="font-size:13px;color:var(--heading);"><strong>Dr. K. Weber (EMA)</strong> replied to your annotation</div><div style="font-size:12px;color:var(--text-secondary);margin-top:2px;">"Agreed. The slope extrapolation to 48 months should also be provided."</div><div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Today, 14:47 CET</div></div>
+      <span class="tag tag-b" style="flex-shrink:0;">New</span>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:6px;">
+    <div style="display:flex;gap:14px;align-items:start;">
+      <div style="width:36px;height:36px;border-radius:8px;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-lucide="key-round" style="color:var(--text-muted);width:18px;height:18px;"></i></div>
+      <div style="flex:1;"><div style="font-size:13px;color:var(--text-secondary);">Encryption key rotated for <strong>M11</strong> workspace</div><div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Yesterday, 09:00 CET</div></div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:6px;">
+    <div style="display:flex;gap:14px;align-items:start;">
+      <div style="width:36px;height:36px;border-radius:8px;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-lucide="check-circle-2" style="color:var(--text-muted);width:18px;height:18px;"></i></div>
+      <div style="flex:1;"><div style="font-size:13px;color:var(--text-secondary);"><strong>Health Canada</strong> completed review of case study draft</div><div style="font-size:11px;color:var(--text-muted);margin-top:4px;">25 Oct, 17:20 CET</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div style="display:flex;gap:14px;align-items:start;">
+      <div style="width:36px;height:36px;border-radius:8px;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-lucide="database-backup" style="color:var(--text-muted);width:18px;height:18px;"></i></div>
+      <div style="flex:1;"><div style="font-size:13px;color:var(--text-secondary);">Daily backup completed — all workspaces verified</div><div style="font-size:11px;color:var(--text-muted);margin-top:4px;">25 Oct, 03:00 CET</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ REPORTING ═══ -->
+<div class="scr" id="s-reports">
+  <div class="ph"><div style="display:flex;justify-content:space-between;align-items:center;"><div><div class="pt">Reports & Analytics</div><div class="pd">Platform activity, usage and compliance reporting</div></div><div style="display:flex;gap:6px;"><select class="fi" style="width:140px;"><option>Last 30 days</option><option>Last 7 days</option><option>Last 90 days</option></select><button class="btn btn-p"><i data-lucide="download" class="sm"></i> Export PDF</button><button class="btn btn-o"><i data-lucide="file-spreadsheet" class="sm"></i> Export CSV</button></div></div></div>
+  <div class="g4" style="margin-bottom:20px;">
+    <div class="stat blue"><div class="sv blue">89</div><div class="sl">Total Users</div></div>
+    <div class="stat green"><div class="sv green">347</div><div class="sl">Documents</div></div>
+    <div class="stat yellow"><div class="sv yellow">1,284</div><div class="sl">Document Views</div></div>
+    <div class="stat purple"><div class="sv purple">98.7%</div><div class="sl">Uptime (30d)</div></div>
+  </div>
+  <div class="g2" style="margin-bottom:20px;">
+    <div class="card"><div class="ch"><div class="ct">Workspace Activity (30 days)</div></div>
+      <div style="display:flex;align-items:end;gap:6px;height:140px;padding-top:10px;">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="background:var(--ich-blue);width:100%;border-radius:4px 4px 0 0;height:80px;"></div><span style="font-size:9px;color:var(--text-muted);">Q12</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="background:var(--ich-blue);width:100%;border-radius:4px 4px 0 0;height:50px;opacity:.7;"></div><span style="font-size:9px;color:var(--text-muted);">M11</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="background:var(--ich-blue);width:100%;border-radius:4px 4px 0 0;height:110px;opacity:.85;"></div><span style="font-size:9px;color:var(--text-muted);">E6(R3)</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="background:var(--text-muted);width:100%;border-radius:4px 4px 0 0;height:25px;opacity:.4;"></div><span style="font-size:9px;color:var(--text-muted);">Q14</span></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:12px;font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-light);padding-top:8px;">
+        <span>Uploads: 34</span><span>Views: 1,284</span><span>Edits: 89</span><span>Downloads: 156</span>
+      </div>
+    </div>
+    <div class="card"><div class="ch"><div class="ct">User Engagement</div></div>
+      <table class="tbl"><thead><tr><th>Authority</th><th>Users</th><th>Views</th><th>Uploads</th><th>Active</th></tr></thead><tbody>
+        <tr><td><strong>EMA</strong></td><td>18</td><td>412</td><td>28</td><td><span class="tag tag-g">High</span></td></tr>
+        <tr><td><strong>Swissmedic</strong></td><td>12</td><td>356</td><td>15</td><td><span class="tag tag-g">High</span></td></tr>
+        <tr><td><strong>FDA</strong></td><td>22</td><td>289</td><td>31</td><td><span class="tag tag-b">Medium</span></td></tr>
+        <tr><td><strong>PMDA</strong></td><td>8</td><td>124</td><td>12</td><td><span class="tag tag-b">Medium</span></td></tr>
+        <tr><td><strong>Health Canada</strong></td><td>6</td><td>67</td><td>5</td><td><span class="tag tag-y">Low</span></td></tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">Security & Compliance</div></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="shield-check" style="color:var(--accent);"></i> CCI encryption compliance</span><span class="tag tag-g">100%</span></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="key-round" style="color:var(--ich-blue);"></i> Key rotation on schedule</span><span class="tag tag-g">Yes</span></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="scan-search" style="color:var(--ich-blue);"></i> Security incidents (30d)</span><span class="tag tag-g">0</span></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="user-check" style="color:var(--ich-blue);"></i> MFA adoption</span><span class="tag tag-g">100%</span></div>
+      <div class="secr"><span style="font-size:12px;"><i data-lucide="database-backup" style="color:var(--ich-blue);"></i> Backup success rate</span><span class="tag tag-g">100%</span></div>
+    </div>
+    <div class="card"><div class="ch"><div class="ct">Storage Usage</div></div>
+      <div style="margin-bottom:14px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;"><span style="color:var(--heading);font-weight:600;">Total: 2.4 GB / 50 GB</span><span style="color:var(--text-muted);">4.8% used</span></div><div style="height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;"><div style="height:100%;width:4.8%;background:var(--ich-blue);border-radius:4px;"></div></div></div>
+      <table class="tbl"><thead><tr><th>Workspace</th><th>Files</th><th>Size</th></tr></thead><tbody>
+        <tr><td>Q12 Post-Approval CMC</td><td>12</td><td>890 MB</td></tr>
+        <tr><td>E6(R3) GCP Guideline</td><td>31</td><td>780 MB</td></tr>
+        <tr><td>M11 CeSHarP Pilot</td><td>8</td><td>520 MB</td></tr>
+        <tr><td>Q14 Analytical (expired)</td><td>18</td><td>210 MB</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ USER PROFILE ═══ -->
+<div class="scr" id="s-profile">
+  <div class="ph"><div class="pt">My Profile & Settings</div><div class="pd">Manage your account, security and preferences</div></div>
+  <div class="g2">
+    <div>
+      <div class="card" style="margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+          <div style="width:64px;height:64px;border-radius:14px;background:var(--ich-blue);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;">JM</div>
+          <div><div style="font-size:18px;font-weight:700;color:var(--heading);">Dr. Julia Müller</div><div style="font-size:13px;color:var(--text-secondary);">Regulatory Assessor</div><div style="font-size:12px;color:var(--ich-blue);margin-top:2px;">Swissmedic · Switzerland</div></div>
+        </div>
+        <div class="fg"><label class="fl">Full Name</label><input class="fi" value="Dr. Julia Müller"></div>
+        <div class="fg"><label class="fl">Email</label><input class="fi" value="j.mueller@swissmedic.ch" disabled style="background:var(--surface2);"></div>
+        <div class="fg"><label class="fl">Organisation</label><input class="fi" value="Swissmedic" disabled style="background:var(--surface2);"></div>
+        <div class="fg"><label class="fl">Role</label><input class="fi" value="Regulatory Authority" disabled style="background:var(--surface2);"></div>
+        <div class="fg"><label class="fl">Language</label><select class="fi"><option>English</option><option>French</option><option>German</option></select></div>
+        <button class="btn btn-p">Save Changes</button>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="ct" style="margin-bottom:16px;"><i data-lucide="shield" class="sm" style="color:var(--ich-blue);"></i> Security</div>
+        <div class="secr"><span style="font-size:12.5px;"><i data-lucide="fingerprint" style="color:var(--accent);"></i> Passkey (WebAuthn)</span><span class="tag tag-g">Active</span></div>
+        <div class="secr"><span style="font-size:12.5px;"><i data-lucide="smartphone" style="color:var(--ich-blue);"></i> TOTP Authenticator</span><span class="tag tag-g">Configured</span></div>
+        <div class="secr"><span style="font-size:12.5px;"><i data-lucide="key-round" style="color:var(--ich-blue);"></i> Encryption Key</span><span class="tag tag-g">Active</span></div>
+        <div style="margin-top:12px;padding:12px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--text-secondary);line-height:1.5;"><i data-lucide="info" class="sm" style="color:var(--ich-blue);"></i> Your private key is stored on your device, protected by your Passkey. It is never sent to the server.</div>
+        <div style="margin-top:12px;display:flex;gap:6px;"><button class="btn btn-o btn-sm"><i data-lucide="key-round" class="sm"></i> Rotate Key</button><button class="btn btn-o btn-sm"><i data-lucide="fingerprint" class="sm"></i> Manage Passkeys</button></div>
+      </div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="ct" style="margin-bottom:16px;"><i data-lucide="bell" class="sm" style="color:var(--ich-blue);"></i> Notifications</div>
+        <label class="ckr"><input type="checkbox" checked><span style="flex:1;font-size:12.5px;">Document shared with me</span></label>
+        <label class="ckr"><input type="checkbox" checked><span style="flex:1;font-size:12.5px;">CCI access granted</span></label>
+        <label class="ckr"><input type="checkbox" checked><span style="flex:1;font-size:12.5px;">Discussion replies</span></label>
+        <label class="ckr"><input type="checkbox" checked><span style="flex:1;font-size:12.5px;">Workspace expiry warnings</span></label>
+        <label class="ckr"><input type="checkbox"><span style="flex:1;font-size:12.5px;">System maintenance alerts</span></label>
+      </div>
+      <div class="card">
+        <div class="ct" style="margin-bottom:16px;"><i data-lucide="activity" class="sm" style="color:var(--ich-blue);"></i> My Activity</div>
+        <div style="font-size:12px;color:var(--text-secondary);line-height:1.8;">
+          <strong>Active Workspaces:</strong> 3<br>
+          <strong>Documents Accessed:</strong> 23 (30d)<br>
+          <strong>Annotations Made:</strong> 8<br>
+          <strong>Discussions Participated:</strong> 4<br>
+          <strong>Last Login:</strong> Today, 09:14 CET<br>
+          <strong>Account Created:</strong> 15 Sep 2026
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MILESTONES ═══ -->
+<div class="scr" id="s-milestones">
+  <div class="ph"><div class="bc"><a href="#" onclick="go('docs')">Q12 Post-Approval CMC</a> / Milestones</div><div style="display:flex;justify-content:space-between;align-items:center;"><div><div class="pt">Milestones & Timeline</div><div class="pd">Track collaboration progress and deadlines</div></div><button class="btn btn-o"><i data-lucide="download" class="sm"></i> Export</button></div></div>
+  <div class="card" style="margin-bottom:20px;">
+    <div class="ch"><div class="ct">Project Timeline</div><div style="font-size:12px;color:var(--text-muted);">Started: 1 Sep 2026 · Deadline: 15 Mar 2027</div></div>
+    <div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;"><span style="color:var(--heading);font-weight:600;">Overall Progress</span><span style="color:var(--ich-blue);font-weight:600;">42%</span></div><div style="height:10px;background:var(--surface2);border-radius:5px;overflow:hidden;"><div style="height:100%;width:42%;background:linear-gradient(90deg,var(--ich-blue),#22d3ee);border-radius:5px;"></div></div></div>
+    <div style="display:flex;gap:6px;font-size:11px;color:var(--text-muted);"><span><i data-lucide="check-circle-2" class="sm" style="color:var(--accent);"></i> 5 completed</span><span><i data-lucide="clock" class="sm" style="color:var(--ich-blue);"></i> 2 in progress</span><span><i data-lucide="circle" class="sm" style="color:var(--text-muted);"></i> 5 upcoming</span></div>
+  </div>
+  <div class="card">
+    <div class="ct" style="margin-bottom:16px;">Milestones</div>
+    <div class="step" style="border-left:3px solid var(--accent);">
+      <div class="sn done">✓</div>
+      <div style="flex:1;"><div style="display:flex;justify-content:space-between;"><div style="font-size:13px;font-weight:600;color:var(--heading);">Workspace Setup & Onboarding</div><span class="tag tag-g">Completed</span></div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">1 Sep 2026 · All 8 participants onboarded</div></div>
+    </div>
+    <div class="step" style="border-left:3px solid var(--accent);">
+      <div class="sn done">✓</div>
+      <div style="flex:1;"><div style="display:flex;justify-content:space-between;"><div style="font-size:13px;font-weight:600;color:var(--heading);">Sponsor CCI Data Upload</div><span class="tag tag-g">Completed</span></div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">15 Sep 2026 · 4 CCI documents uploaded by Pfizer</div></div>
+    </div>
+    <div class="step" style="border-left:3px solid var(--accent);">
+      <div class="sn done">✓</div>
+      <div style="flex:1;"><div style="display:flex;justify-content:space-between;"><div style="font-size:13px;font-weight:600;color:var(--heading);">RA Independent Assessments</div><span class="tag tag-g">Completed</span></div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">15 Oct 2026 · All 4 RAs submitted assessments</div></div>
+    </div>
+    <div class="step" style="border-left:3px solid var(--accent);">
+      <div class="sn done">✓</div>
+      <div style="flex:1;"><div style="display:flex;justify-content:space-between;"><div style="font-size:13px;font-weight:600;color:var(--heading);">Cross-Regional Comparison Started</div><span class="tag tag-g">Completed</span></div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">20 Oct 2026 · Case study draft initiated</div></div>
+    </div>
+    <div class="step" style="border-left:3px solid var(--accent);">
+      <div class="sn done">✓</div>
+      <div style="flex:1;"><div style="display:flex;justify-content:space-between;"><div style="font-size:13px;font-weight:600;color:var(--heading);">Stability Data Review Complete</div><span class="tag tag-g">Completed</span></div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">28 Oct 2026 · 48-month extrapolation requested</div></div>
+    </div>
+    <div class="step" style="border-left:3px solid var(--ich-blue);">
+      <div class="sn now">6</div>
+      <div style="flex:1;"><div style="display:flex;justify-content:space-between;"><div style="font-size:13px;font-weight:600;color:var(--heading);">Case Study Draft Review</div><span class="tag tag-b">In Progress</span></div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Due: 15 Nov 2026 · 3 co-editors active</div></div>
+    </div>
+    <div class="step" style="border-left:3px solid var(--ich-blue);">
+      <div class="sn now">7</div>
+      <div style="flex:1;"><div style="display:flex;justify-content:space-between;"><div style="font-size:13px;font-weight:600;color:var(--heading);">Supplementary Data Collection</div><span class="tag tag-b">In Progress</span></div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Due: 30 Nov 2026 · Pfizer 48-month data pending</div></div>
+    </div>
+    <div class="step">
+      <div class="sn wait">8</div>
+      <div style="flex:1;"><div style="display:flex;justify-content:space-between;"><div style="font-size:13px;color:var(--text-secondary);">Final Case Study Sign-Off</div><span class="tag tag-n">Upcoming</span></div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Target: 15 Jan 2027</div></div>
+    </div>
+    <div class="step">
+      <div class="sn wait">9</div>
+      <div style="flex:1;"><div style="display:flex;justify-content:space-between;"><div style="font-size:13px;color:var(--text-secondary);">Harmonisation Work Products Finalised</div><span class="tag tag-n">Upcoming</span></div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Target: 15 Feb 2027</div></div>
+    </div>
+    <div class="step">
+      <div class="sn wait">10</div>
+      <div style="flex:1;"><div style="display:flex;justify-content:space-between;"><div style="font-size:13px;color:var(--text-secondary);">Download & Archive Period</div><span class="tag tag-n">Upcoming</span></div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Target: 1-15 Mar 2027 · All parties download records</div></div>
+    </div>
+    <div class="step">
+      <div class="sn wait">11</div>
+      <div style="flex:1;"><div style="display:flex;justify-content:space-between;"><div style="font-size:13px;color:var(--text-secondary);">End of Collaboration — Deletion</div><span class="tag tag-n">Upcoming</span></div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">15 Mar 2027 · Manual auth → crypto-shredding</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TERMS ACCEPTANCE ═══ -->
+<div class="scr" id="s-terms">
+  <div style="max-width:640px;margin:40px auto;">
+    <div class="card" style="box-shadow:var(--shadow-lg);">
+      <div style="text-align:center;margin-bottom:24px;">
+        <img src="https://ich.org/assets/images/ich-logo.png?v=2" alt="ICH" style="height:48px;margin-bottom:12px;" onerror="this.style.display='none'">
+        <h2 style="font-size:18px;font-weight:800;color:var(--heading);">Terms of Use & Code of Conduct</h2>
+        <p style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Please review and accept before accessing the platform</p>
+      </div>
+      <div style="max-height:300px;overflow-y:auto;padding:16px;background:var(--surface2);border-radius:8px;margin-bottom:20px;font-size:12px;color:var(--text);line-height:1.7;">
+        <h4 style="font-size:13px;color:var(--heading);margin-bottom:8px;">1. Purpose</h4>
+        <p>The ICH Digital Platform is a temporary, secure collaboration space for regulatory harmonisation activities. All data shared on this platform is subject to the governance framework established by the ICH Management Committee.</p>
+        <h4 style="font-size:13px;color:var(--heading);margin:14px 0 8px;">2. Confidentiality</h4>
+        <p>All Commercially Confidential Information (CCI) uploaded by sponsors remains under the sponsor's control. You must not attempt to share, distribute, or export CCI data beyond the authorised parties designated by the data owner.</p>
+        <h4 style="font-size:13px;color:var(--heading);margin:14px 0 8px;">3. Data Protection</h4>
+        <p>The platform complies with GDPR, PIPEDA, LGPD, and the Swiss Federal Act on Data Protection (FADP). Personal data is processed solely for platform administration. Data controllers retain responsibility for their respective content.</p>
+        <h4 style="font-size:13px;color:var(--heading);margin:14px 0 8px;">4. Acceptable Use</h4>
+        <p>Users must use the platform solely for authorised ICH harmonisation activities. Any misuse, unauthorised access attempts, or data exfiltration will be reported to the ICH Management Committee and may result in immediate suspension.</p>
+        <h4 style="font-size:13px;color:var(--heading);margin:14px 0 8px;">5. Encryption & Key Custody</h4>
+        <p>CCI data is encrypted using envelope encryption with user-managed keys. The platform operator and ICH administrators have zero access to decrypted CCI content. Key holders are responsible for the custody and security of their encryption keys.</p>
+        <h4 style="font-size:13px;color:var(--heading);margin:14px 0 8px;">6. Temporary Nature</h4>
+        <p>The platform is a transient collaboration space, not a permanent repository. All data is subject to defined retention periods and will be deleted through crypto-shredding at the end of each collaboration lifecycle.</p>
+      </div>
+      <label class="ckr" style="margin-bottom:8px;"><input type="checkbox" id="tc1"><span style="flex:1;font-size:12.5px;">I have read and agree to the <strong>Terms of Use</strong></span></label>
+      <label class="ckr" style="margin-bottom:8px;"><input type="checkbox" id="tc2"><span style="flex:1;font-size:12.5px;">I agree to the <strong>Code of Conduct</strong> and data handling obligations</span></label>
+      <label class="ckr" style="margin-bottom:8px;"><input type="checkbox" id="tc3"><span style="flex:1;font-size:12.5px;">I acknowledge the <strong>Privacy Policy</strong> and <strong>Children's Privacy</strong> provisions</span></label>
+      <div style="display:flex;gap:8px;margin-top:16px;">
+        <button class="btn btn-p btn-lg" style="flex:1;" onclick="go('dash')"><i data-lucide="check-circle-2" class="sm"></i> Accept & Continue</button>
+        <button class="btn btn-o btn-lg" onclick="go('login')">Decline</button>
+      </div>
+      <div style="text-align:center;margin-top:12px;font-size:11px;color:var(--text-muted);">Last updated: October 2026 · ICH Management Committee</div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ MODAL ═══ -->
 <div class="mbg" id="modal"><div class="mdl" style="text-align:center;">
   <div style="width:56px;height:56px;border-radius:50%;background:var(--accent-light);border:2px solid rgba(22,163,74,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;"><i data-lucide="shield-check" style="width:26px;height:26px;color:var(--accent);"></i></div>
@@ -598,7 +899,7 @@ function go(id){
   document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
   document.getElementById('s-'+id).classList.add('on');
   // Map screens to sidebar nav index
-  const m={dash:0,spaces:1,docs:2,discuss:3,upload:4,access:5,admin:6,viewer:2,editor:2,ectd:2};
+  const m={dash:0,spaces:1,docs:2,discuss:3,milestones:4,notif:5,upload:6,access:7,admin:8,reports:9,profile:10,viewer:2,editor:2,ectd:2,search:2,terms:0};
   document.querySelectorAll('.sidenav .np').forEach((p,i)=>p.classList.toggle('on',i===m[id]));
   // Show/hide sidebar and topbar on login
   const isLogin = id==='login';
